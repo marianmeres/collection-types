@@ -3,14 +3,14 @@
  * Includes branded types for compile-time safety and common helper types.
  */
 
-/** Branded type for UUID strings */
-export type UUID = string & { readonly __brand: "UUID" };
+/** UUID string type */
+export type UUID = string;
 
-/** Branded type for ISO 8601 date strings */
-export type ISODateString = string & { readonly __brand: "ISODateString" };
+/** ISO 8601 date string type */
+export type ISODateString = string;
 
-/** Branded type for PostgreSQL ltree paths */
-export type LtreePath = string & { readonly __brand: "LtreePath" };
+/** PostgreSQL ltree path type */
+export type LtreePath = string;
 
 /** Value that may be localized with language keys */
 export type MaybeLocalized<T> = T | Record<string, T>;

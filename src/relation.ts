@@ -51,6 +51,12 @@ export interface RelationTypeDTOIn {
 export interface RelationTypeDTOOut extends RelationTypeDTOIn {
 	/** Unique relation type identifier */
 	_relation_type_id: UUID;
+	/** Maximum number of relations allowed (-1 for unlimited, default -1) */
+	cardinality: number;
+	/** Cardinality on the model side (1 = one-to-many, -1 = many-to-many, default -1) */
+	model_cardinality: number;
+	/** Cardinality on the related side (default -1) */
+	related_cardinality: number;
 	/** Creation timestamp */
 	_created_at: ISODateString;
 	/** Last update timestamp */

@@ -64,6 +64,16 @@ export interface CollectionDTOOut extends CollectionDTOIn {
 	collection_id: UUID;
 	/** Project this collection belongs to */
 	project_id: UUID;
+	/** Unique path identifier (ltree format) */
+	path: LtreePath;
+	/** Maximum number of models allowed (-1 for unlimited, default -1) */
+	cardinality: number;
+	/** Model types allowed in this collection (default ["default"]) */
+	types: string[];
+	/** JSON Schema definitions per model type */
+	schemas: Record<string, Record<string, PropertyDefinition>>;
+	/** Default values per model type */
+	defaults: Record<string, UserData>;
 	/** Creation timestamp */
 	_created_at: ISODateString;
 	/** Last update timestamp */
