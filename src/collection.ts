@@ -36,7 +36,7 @@ export interface CollectionDTOIn {
 	/** Model types allowed in this collection */
 	types?: string[];
 	/** JSON Schema definitions per model type */
-	schemas?: Record<string, Record<string, PropertyDefinition>>;
+	schemas?: Record<string, PropertyDefinition>;
 	/** Default values per model type */
 	defaults?: Record<string, UserData>;
 	/** User-defined data */
@@ -71,7 +71,7 @@ export interface CollectionDTOOut extends CollectionDTOIn {
 	/** Model types allowed in this collection (default ["default"]) */
 	types: string[];
 	/** JSON Schema definitions per model type */
-	schemas: Record<string, Record<string, PropertyDefinition>>;
+	schemas: Record<string, PropertyDefinition>;
 	/** Default values per model type */
 	defaults: Record<string, UserData>;
 	/** Creation timestamp */

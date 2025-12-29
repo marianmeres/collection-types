@@ -3,6 +3,8 @@
  * Defines JSON Schema extensions and UI configuration.
  */
 
+import type { MaybeLocalized } from "./utils.ts";
+
 /** HTML field type for UI rendering */
 export type SchemaHtmlType =
 	| "text"
@@ -61,21 +63,21 @@ export interface CustomSchemaKeywords {
 	/** Default value for property */
 	_default?: unknown;
 	/** UI hint configuration object */
-	_html?: SchemaHtmlConfig;
-	/** Property title for display */
-	_title?: string;
-	/** Property description for display */
-	_description?: string;
+	_html?: SchemaHtmlConfig | Record<string, unknown>;
+	/** Property title for display (can be localized) */
+	_title?: MaybeLocalized<string>;
+	/** Property description for display (can be localized) */
+	_description?: MaybeLocalized<string>;
 	/** Property used as model label (number, priority 1=highest) */
-	_label_source?: number;
+	_label_source?: number | boolean;
 	/** Allow building hierarchy from label slashes */
 	_label_source_allow_build_hierarchy?: boolean;
 	/** Path uniqueness constraint */
 	_unique?: boolean;
-	/** Include in full-text search */
-	_searchable?: boolean;
+	/** Include in full-text search (boolean or array of locale codes) */
+	_searchable?: boolean | string[];
 	/** Array of filters to apply before indexing */
-	_searchable_filters?: string[];
+	_searchable_filters?: Array<string | { name: string }>;
 	/** Type ordering */
 	_order?: number;
 }
@@ -97,6 +99,14 @@ export interface PropertyDefinition extends CustomSchemaKeywords {
 	maxLength?: number;
 	pattern?: string;
 	default?: unknown;
+	/** Additional properties constraint (JSON Schema) */
+	additionalProperties?: boolean | PropertyDefinition;
+	/** Union type (JSON Schema oneOf) */
+	oneOf?: PropertyDefinition[];
+	/** Constant value (JSON Schema const) */
+	const?: unknown;
+	/** Custom: inherit from another type definition */
+	__extends?: string;
 }
 
 /**
