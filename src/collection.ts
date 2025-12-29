@@ -75,7 +75,7 @@ export interface CollectionDTOOut extends CollectionDTOIn {
  */
 export interface CollectionDbRow extends CollectionDTOOut {
 	/** @internal Disables REST API access for entire collection */
-	__is_rest_disabled?: boolean;
+	__is_rest_disabled: boolean;
 }
 
 /**

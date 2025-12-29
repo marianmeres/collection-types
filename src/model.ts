@@ -69,13 +69,13 @@ export interface ModelDTOOut extends ModelDTOIn {
  */
 export interface ModelDbRow extends ModelDTOOut {
 	/** @internal Disables REST API access */
-	__is_rest_disabled?: boolean;
+	__is_rest_disabled: boolean;
 	/** @internal Structured search index data */
-	__searchable?: Record<string, unknown>;
+	__searchable: Record<string, unknown>;
 	/** @internal Full-text search string */
-	__searchable2?: string;
+	__searchable2: string;
 	/** @internal Cached hierarchy path for ancestor queries */
-	__hierarchy_path?: LtreePath | null;
+	__hierarchy_path: LtreePath | null;
 }
 
 /**

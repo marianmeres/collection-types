@@ -62,7 +62,7 @@ export interface RelationTypeDTOOut extends RelationTypeDTOIn {
  */
 export interface RelationTypeDbRow extends RelationTypeDTOOut {
 	/** @internal Disables REST API access */
-	__is_rest_disabled?: boolean;
+	__is_rest_disabled: boolean;
 }
 
 /**
