@@ -3,7 +3,13 @@
  * Defines the structure of model records at different layers (input, output, database).
  */
 
-import type { UUID, ISODateString, LtreePath, UserData, MaybeLocalized } from "./utils.ts";
+import type {
+	UUID,
+	ISODateString,
+	LtreePath,
+	UserData,
+	MaybeLocalized,
+} from "./utils.ts";
 
 /**
  * Input DTO for creating/updating a model.
@@ -55,6 +61,8 @@ export interface ModelDTOOut extends ModelDTOIn {
 	collection_id: UUID;
 	/** Model type within collection (default "default") */
 	type: string;
+	/** Hierarchy depth (0 = root) */
+	depth: number;
 	/** Auto-generated label from schema _label_source fields */
 	_label?: MaybeLocalized<string> | null;
 	/** Computed label for hierarchy display */
@@ -70,8 +78,6 @@ export interface ModelDTOOut extends ModelDTOIn {
  * Includes internal fields for search indexing and REST control.
  */
 export interface ModelDbRow extends ModelDTOOut {
-	/** Hierarchy depth (0 = root) */
-	depth: number;
 	/** @internal Disables REST API access */
 	__is_rest_disabled: boolean;
 	/** @internal Structured search index data */
@@ -105,4 +111,6 @@ export interface ModelUpsertData extends ModelDbRow {
  * type Book = Model<BookData>;
  * ```
  */
-export type Model<TData extends UserData = UserData> = ModelDbRow & { data: TData };
+export type Model<TData extends UserData = UserData> = ModelDbRow & {
+	data: TData;
+};
