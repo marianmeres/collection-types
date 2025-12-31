@@ -65,7 +65,11 @@ export interface SchemaHtmlConfig {
 	/** Field type for UI rendering */
 	type?: SchemaHtmlType;
 	/** Type-specific configuration */
-	_type_config?: RelationTypeConfig | AssetTypeConfig | SelectConfig | KeyValuesConfig;
+	_type_config?:
+		| RelationTypeConfig
+		| AssetTypeConfig
+		| SelectConfig
+		| KeyValuesConfig;
 
 	/** Display label (can be localized) */
 	label?: MaybeLocalized<string>;
@@ -90,7 +94,7 @@ export interface SchemaHtmlConfig {
 	/** Hidden field */
 	hidden?: boolean;
 
-	/** Default value (JSON serialized) */
+	/** UI-specific default (distinct from _default) (typically JSON serialized) */
 	_default?: string;
 }
 
@@ -126,7 +130,14 @@ export interface CustomSchemaKeywords {
  * Used in collection schemas to define model fields.
  */
 export interface PropertyDefinition extends CustomSchemaKeywords {
-	type?: "string" | "number" | "integer" | "boolean" | "object" | "array" | "null";
+	type?:
+		| "string"
+		| "number"
+		| "integer"
+		| "boolean"
+		| "object"
+		| "array"
+		| "null";
 	format?: string;
 	enum?: unknown[];
 	items?: PropertyDefinition;
