@@ -21,7 +21,8 @@ export type SchemaHtmlType =
 	| "relation"
 	| "asset"
 	| "json"
-	| "code";
+	| "code"
+	| "keyvalues";
 
 /** Configuration for relation-type fields in schema */
 export interface RelationTypeConfig {
@@ -44,10 +45,18 @@ export interface SelectConfig {
 	multiple?: boolean;
 }
 
+/** Configuration for keyvalues fields */
+export interface KeyValuesConfig {
+	keyPlaceholder?: string;
+	valuePlaceholder?: string;
+	addLabel?: string;
+	emptyMessage?: string;
+}
+
 /** Configuration for _html schema keyword */
 export interface SchemaHtmlConfig {
 	type: SchemaHtmlType;
-	_type_config?: RelationTypeConfig | AssetTypeConfig | SelectConfig;
+	_type_config?: RelationTypeConfig | AssetTypeConfig | SelectConfig | KeyValuesConfig;
 	rows?: number;
 	placeholder?: string;
 	help?: string;
