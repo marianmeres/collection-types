@@ -12,6 +12,9 @@ export type SchemaHtmlType =
 	| "wysiwyg"
 	| "number"
 	| "boolean"
+	| "checkbox"
+	| "parent"
+	| "object"
 	| "select"
 	| "multiselect"
 	| "date"
@@ -30,11 +33,15 @@ export interface RelationTypeConfig {
 	domain?: string;
 	entity?: string;
 	cardinality?: number;
+	/** Entity type filter (e.g., "default", "top") */
+	type?: string;
+	/** Allow unknown relations */
+	allow_unknown?: boolean;
 }
 
 /** Configuration for asset-type fields in schema */
 export interface AssetTypeConfig {
-	accept?: string[];
+	accept?: string | string[];
 	maxSize?: number;
 	variants?: string[];
 }
@@ -55,13 +62,36 @@ export interface KeyValuesConfig {
 
 /** Configuration for _html schema keyword */
 export interface SchemaHtmlConfig {
-	type: SchemaHtmlType;
+	/** Field type for UI rendering */
+	type?: SchemaHtmlType;
+	/** Type-specific configuration */
 	_type_config?: RelationTypeConfig | AssetTypeConfig | SelectConfig | KeyValuesConfig;
+
+	/** Display label (can be localized) */
+	label?: MaybeLocalized<string>;
+	/** Display description (can be localized) */
+	description?: MaybeLocalized<string>;
+	/** Fieldset grouping label (can be localized) */
+	_fieldset?: MaybeLocalized<string>;
+
+	/** Order in model form */
+	_model_form_order?: number;
+	/** Order in data table */
+	_data_table_order?: number;
+
+	/** Number of textarea rows */
 	rows?: number;
+	/** Input placeholder text */
 	placeholder?: string;
+	/** Help text */
 	help?: string;
+	/** Read-only field */
 	readonly?: boolean;
+	/** Hidden field */
 	hidden?: boolean;
+
+	/** Default value (JSON serialized) */
+	_default?: string;
 }
 
 /**
@@ -72,7 +102,7 @@ export interface CustomSchemaKeywords {
 	/** Default value for property */
 	_default?: unknown;
 	/** UI hint configuration object */
-	_html?: SchemaHtmlConfig | Record<string, unknown>;
+	_html?: SchemaHtmlConfig;
 	/** Property title for display (can be localized) */
 	_title?: MaybeLocalized<string>;
 	/** Property description for display (can be localized) */
