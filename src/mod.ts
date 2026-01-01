@@ -40,3 +40,12 @@ export * from "./linked-assets.ts";
 
 // Adapter (database layer)
 export * from "./adapter.ts";
+
+// E-commerce domain types
+export * from "./session.ts";
+export * from "./customer.ts";
+export * from "./order.ts";
+export * from "./payment.ts";
+
+// Cross-domain reference support
+export * from "./external-domain.ts";
