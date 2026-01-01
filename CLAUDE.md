@@ -56,6 +56,47 @@ Each entity follows: **DTOIn → DTOOut → DbRow**
 | Query filtering | `QuerySyntax` |
 | Schema field definition | `PropertyDefinition` |
 | File attachment | `ModelAsset` |
+| Cross-domain reference meta | `ExternalDomainMeta` |
+
+## Relation Types
+
+Relations support two reference mechanisms:
+
+```typescript
+// RelationDTOIn - one of these must be provided
+interface RelationDTOIn {
+  related_id?: UUID;         // Strong: FK-enforced (same adapter)
+  weak_related_id?: string;  // Weak: No FK (cross-domain, external)
+  sort_order?: number;
+  meta?: Record<string, any>;
+}
+```
+
+**When to use each:**
+- `related_id`: Models in the same adapter (product→tag, order→event)
+- `weak_related_id`: Cross-domain refs or external IDs (session→account)
+
+## ExternalDomainMeta
+
+For cross-domain relations, descriptor collections use this metadata:
+
+```typescript
+import { ExternalDomainMeta, isExternalDomainMeta } from "@marianmeres/collection-types";
+
+// In collection.meta
+const meta: ExternalDomainMeta = {
+  __external_domain__: true,           // Marker flag
+  external_domain: "account",          // Target domain
+  external_adapter_prefix: "account_", // Target table prefix
+  external_collection_path: "account", // Target collection path
+  description: "Cross-domain ref",
+};
+
+// Type guard
+if (isExternalDomainMeta(collection.meta)) {
+  // Handle as external reference
+}
+```
 
 ## Query Operators
 
