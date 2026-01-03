@@ -49,3 +49,9 @@ export * from "./payment.ts";
 
 // Cross-domain reference support
 export * from "./external-domain.ts";
+
+// Example domain types (reference implementation)
+export * from "./example.ts";
+
+// Schema builder utilities (type-safe schema definitions)
+export * from "./schema-builder.ts";
