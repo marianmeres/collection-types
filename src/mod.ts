@@ -1,19 +1,28 @@
 /**
  * @module @marianmeres/collection-types
  *
- * Type definitions for the collection management system.
- * Pure interfaces with no runtime code - safe for type-only imports.
+ * Type definitions and schema utilities for the collection management system.
+ *
+ * Includes:
+ * - Core types: Model, Collection, Relation, Schema
+ * - Domain types: Account, Product, Order, Customer, Session, etc.
+ * - Schema builder: createObjectSchema<T>() for type-safe schema definitions
  *
  * @example
  * ```typescript
+ * // Type-only imports
  * import type {
  *   Model,
  *   Collection,
- *   Relation,
- *   RelationType,
- *   PropertyDefinition,
- *   ApiResponse,
  *   UUID,
+ *   ProductData,
+ *   CustomerData,
+ * } from "@marianmeres/collection-types";
+ *
+ * // Schema builder (runtime import)
+ * import {
+ *   createObjectSchema,
+ *   type ExtendedSchema,
  * } from "@marianmeres/collection-types";
  * ```
  */
@@ -49,6 +58,21 @@ export * from "./payment.ts";
 
 // Cross-domain reference support
 export * from "./external-domain.ts";
+
+// Account domain types
+export * from "./account.ts";
+
+// Product domain types
+export * from "./product.ts";
+
+// Project/config domain types
+export * from "./project.ts";
+
+// Template domain types
+export * from "./template.ts";
+
+// Email domain types
+export * from "./email.ts";
 
 // Example domain types (reference implementation)
 export * from "./example.ts";
