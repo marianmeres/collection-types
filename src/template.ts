@@ -12,21 +12,21 @@
 export interface TemplateData {
 	slug: string;
 	name: string;
-	description?: string;
+	description: string;
 	/** Email subject line (Handlebars template) */
-	subject?: string;
+	subject: string;
 	/** Email body in MJML format (Handlebars template) */
-	body_mjml?: string;
+	body_mjml: string;
 	/** Plain text email body (Handlebars template) */
-	body_text?: string;
+	body_text: string;
 	/** JSON Schema for template variables validation */
-	variables_schema?: Record<string, unknown>;
+	variables_schema: Record<string, unknown>;
 	/** Sample data for template preview */
-	sample_data?: Record<string, unknown>;
+	sample_data: Record<string, unknown>;
 	/** Template language code */
-	lang?: string;
+	lang: string;
 	/** Whether template is active */
-	is_active?: boolean;
+	is_active: boolean;
 	/** Index signature for Model<T> compatibility */
 	[key: string]: unknown;
 }

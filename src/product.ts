@@ -36,6 +36,8 @@ export interface ProductData {
 export interface CategoryData {
 	name: string;
 	slug?: string;
+	/** Parent category ID for hierarchy */
+	parent_id?: string;
 	short_description?: MaybeLocalized<string>;
 	description?: MaybeLocalized<string>;
 	custom?: Record<string, unknown>;
