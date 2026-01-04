@@ -79,3 +79,6 @@ export * from "./example.ts";
 
 // Schema builder utilities (type-safe schema definitions)
 export * from "./schema-builder.ts";
+
+// Navigation types (admin UI)
+export * from "./navigation.ts";
