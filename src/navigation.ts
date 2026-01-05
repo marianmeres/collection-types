@@ -33,8 +33,6 @@ export interface ModuleRegistryEntry {
 		id: string;
 		entity: string;
 		permission: string; // e.g., "product:read"
-		primaryEntity?: boolean; // Marks this collection as source for domainLabel
-		schemaTitle?: MaybeLocalized<string>; // Collection-level title (fallback)
 		types: CollectionTypeEntry[]; // Types within this collection
 	}>;
 }
