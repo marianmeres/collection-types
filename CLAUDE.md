@@ -57,6 +57,9 @@ Each entity follows: **DTOIn → DTOOut → DbRow**
 | Schema field definition | `PropertyDefinition` |
 | File attachment | `ModelAsset` |
 | Cross-domain reference meta | `ExternalDomainMeta` |
+| Admin UI navigation | `NavConfig`, `NavItemDef` |
+| Linked assets config | `LinkedAssetsConfig`, `LinkedAssetRule` |
+| Form route overrides | `FormRoutesConfig`, `FormRouteRule` |
 
 ## Relation Types
 
@@ -101,3 +104,78 @@ if (isExternalDomainMeta(collection.meta)) {
 ## Query Operators
 
 `eq`, `neq`, `gt`, `gte`, `lt`, `lte`, `like`, `nlike`, `match`, `nmatch`, `is`, `nis`, `in`, `nin`, `ltree`, `ancestor`, `descendant`
+
+## Form Route Overrides
+
+Types for the `__joy_form_routes__` config record that allows custom form submission endpoints:
+
+```typescript
+import type {
+  FormRoutesConfig,
+  FormRouteRule,
+  FormRouteMatch,
+  FormRouteContext,
+  HttpMethod
+} from "@marianmeres/collection-types";
+
+// Config stored as __joy_form_routes__ model value
+const config: FormRoutesConfig = {
+  version: 1,
+  rules: [{
+    id: "product-special",
+    description: "Custom save for products",
+    match: { domain: "product", entity: "product", method: "PUT" },
+    endpoint: "/api/custom/products/{id}/save",
+    enabled: true,
+    priority: 10
+  }]
+};
+
+// Wildcards supported: "*" matches any value
+const wildcardMatch: FormRouteMatch = { domain: "product", entity: "*", type: "*", method: "*" };
+
+// Endpoint placeholders: {domain}, {entity}, {type}, {id}
+```
+
+## Navigation Types
+
+Types for admin UI navigation generation stored in `__nav_config__`:
+
+```typescript
+import type { NavConfig, NavItemDef, ModuleRegistryEntry } from "@marianmeres/collection-types";
+
+// Customize auto-generated navigation
+const navConfig: NavConfig = {
+  overrides: {
+    "product": { label: "Products", order: 1, icon: "box" },
+    "product/category": { label: "Categories", group: "Catalog" }
+  },
+  hidden: ["example", "project/_config"],
+  custom: [{ label: "Dashboard", href: "/dashboard", icon: "home", order: 0 }]
+};
+```
+
+## Linked Assets
+
+Types for metadata-based asset linking stored in `__joy_linked_assets__`:
+
+```typescript
+import type { LinkedAssetsConfig, LinkedAssetRule } from "@marianmeres/collection-types";
+
+// Link assets by matching metadata fields
+const rule: LinkedAssetRule = {
+  id: "product-images",
+  label: "Product Images",
+  match: { domain: "product", entity: "product" },
+  asset_query: {
+    type: "product-image",
+    conditions: [{
+      asset_field: "data.custom.sku",
+      operator: "eq",
+      value_source: "model_field",
+      value: "sku"  // Match asset's custom.sku to model's sku field
+    }]
+  },
+  upload: { auto_fill_custom: { "custom.sku": "sku" } }
+};
+```

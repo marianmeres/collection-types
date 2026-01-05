@@ -82,3 +82,6 @@ export * from "./schema-builder.ts";
 
 // Navigation types (admin UI)
 export * from "./navigation.ts";
+
+// Form Routes Configuration Types (admin UI)
+export * from "./form-routes.ts";

@@ -8,15 +8,18 @@ Type-only package for the @marianmeres ecosystem. No runtime code - pure TypeScr
 
 ```
 src/
-├── mod.ts          # Main entry point, re-exports all modules
-├── utils.ts        # Branded types (UUID, ISODateString, LtreePath) and helpers
-├── model.ts        # Model entity types (DTOIn → DTOOut → DbRow pattern)
-├── collection.ts   # Collection entity types
-├── relation.ts     # Relation and RelationType entity types
-├── schema.ts       # JSON Schema extensions for UI/form generation
-├── api.ts          # API response wrappers, pagination, query syntax
-├── asset.ts        # File attachment types
-└── adapter.ts      # Database adapter interface types
+├── mod.ts           # Main entry point, re-exports all modules
+├── utils.ts         # Branded types (UUID, ISODateString, LtreePath) and helpers
+├── model.ts         # Model entity types (DTOIn → DTOOut → DbRow pattern)
+├── collection.ts    # Collection entity types
+├── relation.ts      # Relation and RelationType entity types
+├── schema.ts        # JSON Schema extensions for UI/form generation
+├── api.ts           # API response wrappers, pagination, query syntax
+├── asset.ts         # File attachment types
+├── linked-assets.ts # Metadata-based asset linking configuration
+├── adapter.ts       # Database adapter interface types
+├── navigation.ts    # Admin UI navigation menu types
+└── form-routes.ts   # Form route override configuration types
 ```
 
 ## Key Patterns
@@ -144,3 +147,36 @@ Relation:     RelationDTOIn → RelationDTOOut → RelationDbRow (= Relation)
 | `DbQueryResult<T>` | Query result (rows, rowCount) |
 | `QueryProvider` | DB interface (type: "pg" \| "sqlite", query, each) |
 | `AdapterOptions` | Adapter config (tablePrefix, preInitSql, postInitSql, projectIdFk, resetAll) |
+
+### linked-assets.ts - Metadata-Based Asset Linking
+
+| Type | Description |
+|------|-------------|
+| `LinkedAssetOperator` | Match operators: eq, neq, lt, lte, gt, gte, like, ilike, in, nin, ?, descendant |
+| `LinkedAssetValueSource` | Value source: "literal" or "model_field" |
+| `LinkedAssetCondition` | Single matching condition (asset_field, operator, value_source, value) |
+| `LinkedAssetUploadConfig` | Upload config (auto_fill_custom, type, accept, cardinality) |
+| `LinkedAssetUnlinkConfig` | Unlink config (field, confirm) |
+| `LinkedAssetQueryConfig` | Query config (domain, entity, type, conditions, base_conditions) |
+| `LinkedAssetMatchConfig` | Match context (domain, entity, type) |
+| `LinkedAssetRule` | Single rule (id, label, match, asset_query, upload, unlink, enabled, order) |
+| `LinkedAssetsConfig` | Complete config with version and rules array |
+
+### navigation.ts - Admin UI Navigation
+
+| Type | Description |
+|------|-------------|
+| `CollectionTypeEntry` | Type entry within collection (name, schemaTitle) |
+| `ModuleRegistryEntry` | Domain module registry (domain, mount, domainLabel, collections) |
+| `NavConfig` | Navigation customization (overrides, hidden, custom items) |
+| `NavItemDef` | Output nav item (label, href, domain, entity, type, id, folder, icon, group) |
+
+### form-routes.ts - Form Route Overrides
+
+| Type | Description |
+|------|-------------|
+| `HttpMethod` | HTTP methods for forms: "POST", "PUT", "DELETE" |
+| `FormRouteMatch` | Matching context (domain, entity, type, method) with wildcard support |
+| `FormRouteRule` | Single override rule (id, description, match, endpoint, enabled, priority) |
+| `FormRoutesConfig` | Complete config with version and rules array |
+| `FormRouteContext` | Runtime lookup context for route resolution |
