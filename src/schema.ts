@@ -25,7 +25,8 @@ export type SchemaHtmlType =
 	| "asset"
 	| "json"
 	| "code"
-	| "keyvalues";
+	| "keyvalues"
+	| "password";
 
 /** Configuration for relation-type fields in schema */
 export interface RelationTypeConfig {

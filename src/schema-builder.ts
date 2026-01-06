@@ -39,6 +39,8 @@ export type ObjectSchema<T> = {
 	_title?: MaybeLocalized<string>;
 	_description?: MaybeLocalized<string>;
 	_searchable?: boolean;
+	/** Virtual form-only fields (not persisted, excluded from DB validation) */
+	_extra_form_fields?: Record<string, PropertyDefinition>;
 };
 
 /** Extended schema (loose typing for __extends patterns) */
