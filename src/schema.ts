@@ -166,4 +166,6 @@ export interface PropertyDefinition extends CustomSchemaKeywords {
 export interface ModelDefinition {
 	properties: Record<string, PropertyDefinition>;
 	required?: string[];
+	/** Virtual form-only fields (not persisted, excluded from DB validation) */
+	_extra_form_fields?: Record<string, PropertyDefinition>;
 }
