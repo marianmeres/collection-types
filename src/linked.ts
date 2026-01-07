@@ -170,6 +170,34 @@ export interface LinkedMatchConfig {
 }
 
 /**
+ * Display options for rendering linked items.
+ * Used both as global defaults and per-rule overrides.
+ */
+export interface LinkedDisplayOptions {
+	/** Maximum number of items to show (default: 20) */
+	limit?: number;
+	/** Grid column count (default: 4) */
+	columns?: number;
+	/** Whether to show filenames below items (default: true) */
+	show_filename?: boolean;
+	/** Thumbnail variant size (default: "sm") */
+	thumbnail_variant?: "xs" | "sm" | "lg";
+}
+
+/**
+ * Configuration for the "Referenced By" feature.
+ * Shows which other models reference the current model via reverse lookup.
+ */
+export interface ReverseLinkedConfig {
+	/** Collections that display reverse linked lookups UI */
+	enabled_collections: Array<{
+		domain: string;
+		entity: string;
+		type?: string;
+	}>;
+}
+
+/**
  * A single linked rule configuration.
  * Defines when and how to show/manage linked models for a specific model context.
  */
@@ -206,6 +234,9 @@ export interface LinkedRule {
 	 * @default 0
 	 */
 	order?: number;
+
+	/** Display options for rendering (optional, falls back to config defaults) */
+	display?: LinkedDisplayOptions;
 }
 
 /**
@@ -222,4 +253,10 @@ export interface LinkedConfig {
 	 * Array of linked rules.
 	 */
 	rules: LinkedRule[];
+
+	/** Global default display options (individual rules can override) */
+	defaults?: LinkedDisplayOptions;
+
+	/** Configuration for reverse lookups ("referenced by" feature) */
+	reverse?: ReverseLinkedConfig;
 }
