@@ -85,3 +85,6 @@ export * from "./navigation.ts";
 
 // Form Routes Configuration Types (admin UI)
 export * from "./form-routes.ts";
+
+// Custom Pages Configuration Types (admin UI)
+export * from "./custom-pages.ts";
