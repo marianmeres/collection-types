@@ -138,7 +138,7 @@ export interface LinkedQueryConfig {
 	entity?: string;
 
 	/**
-	 * Target type filter (e.g., "product-image").
+	 * Target type filter (e.g., "custom").
 	 * If specified, adds `type:eq:<value>` to conditions.
 	 */
 	type?: string;

@@ -162,20 +162,20 @@ Types for metadata-based asset linking stored in `__joy_linked_assets__`:
 ```typescript
 import type { LinkedAssetsConfig, LinkedAssetRule } from "@marianmeres/collection-types";
 
-// Link assets by matching metadata fields
+// Link assets by matching metadata fields (legacy pattern - prefer typed relations)
 const rule: LinkedAssetRule = {
-  id: "product-images",
-  label: "Product Images",
-  match: { domain: "product", entity: "product" },
+  id: "matching-assets",
+  label: "Matching Assets",
+  match: { domain: "example", entity: "example" },
   asset_query: {
-    type: "product-image",
+    type: "custom",
     conditions: [{
-      asset_field: "data.custom.sku",
+      asset_field: "data.custom.ref_id",
       operator: "eq",
       value_source: "model_field",
-      value: "sku"  // Match asset's custom.sku to model's sku field
+      value: "id"  // Match asset's custom.ref_id to model's id field
     }]
   },
-  upload: { auto_fill_custom: { "custom.sku": "sku" } }
+  upload: { auto_fill_custom: { "custom.ref_id": "id" } }
 };
 ```

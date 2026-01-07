@@ -19,8 +19,8 @@ export interface ProductData {
 	slug?: string;
 	short_description?: MaybeLocalized<string>;
 	description?: MaybeLocalized<string>;
-	/** Whether product has an associated image */
-	has_image?: boolean;
+	/** Whether product has an associated image (computed, auto-synced) */
+	_has_image?: boolean;
 	custom?: Record<string, unknown>;
 	// UI-only fields (relation placeholders, never stored in data)
 	category?: never;
