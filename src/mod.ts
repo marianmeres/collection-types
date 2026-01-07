@@ -44,8 +44,8 @@ export * from "./api.ts";
 // Assets
 export * from "./asset.ts";
 
-// Linked Assets (metadata-based linking configuration)
-export * from "./linked-assets.ts";
+// Linked models (metadata-based linking configuration)
+export * from "./linked.ts";
 
 // Adapter (database layer)
 export * from "./adapter.ts";

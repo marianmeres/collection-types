@@ -1,15 +1,15 @@
 /**
- * Linked Assets Configuration Types
+ * Linked Configuration Types
  *
- * Types for the linked assets feature - a configuration-driven system
- * for displaying assets that are implicitly linked via metadata matching
+ * Types for the linked models feature - a configuration-driven system
+ * for displaying models that are implicitly linked via metadata matching
  * rather than explicit relation records.
  *
  * Used by:
  * - Joy admin (frontend configuration consumption)
  * - Backend (configuration storage and bootstrap)
  *
- * @module linked-assets
+ * @module linked
  */
 
 import type { MaybeLocalized } from "./utils.ts";
@@ -18,7 +18,7 @@ import type { MaybeLocalized } from "./utils.ts";
  * Comparison operators supported for matching conditions.
  * Maps to @marianmeres/condition-builder OPERATOR enum.
  */
-export type LinkedAssetOperator =
+export type LinkedOperator =
 	| "eq" // equals
 	| "neq" // not equals
 	| "lt" // less than
@@ -37,56 +37,56 @@ export type LinkedAssetOperator =
  * - "literal": use the value as-is
  * - "model_field": extract from current model's data using dot-path
  */
-export type LinkedAssetValueSource = "literal" | "model_field";
+export type LinkedValueSource = "literal" | "model_field";
 
 /**
- * A single matching condition for linked assets.
+ * A single matching condition for linked models.
  *
  * @example
- * // Match assets where data.custom.sku equals model's sku field
+ * // Match models where data.custom.sku equals source model's sku field
  * {
- *   asset_field: "data.custom.sku",
+ *   target_field: "data.custom.sku",
  *   operator: "eq",
  *   value_source: "model_field",
  *   value: "sku"
  * }
  */
-export interface LinkedAssetCondition {
+export interface LinkedCondition {
 	/**
-	 * The field path on the asset model to match against.
+	 * The field path on the target model to match against.
 	 * Examples: "type", "data.custom.sku", "folder", "tags"
 	 */
-	asset_field: string;
+	target_field: string;
 
 	/** Comparison operator */
-	operator: LinkedAssetOperator;
+	operator: LinkedOperator;
 
 	/** How to interpret the value */
-	value_source: LinkedAssetValueSource;
+	value_source: LinkedValueSource;
 
 	/**
 	 * The value to match:
 	 * - If value_source is "literal": the actual value to compare
-	 * - If value_source is "model_field": dot-path to model field
+	 * - If value_source is "model_field": dot-path to source model field
 	 */
 	value: string | number | boolean;
 }
 
 /**
- * Upload configuration for linked assets.
+ * Upload configuration for linked models.
  * When present, enables file upload capability.
  */
-export interface LinkedAssetUploadConfig {
+export interface LinkedUploadConfig {
 	/**
 	 * Auto-populate custom fields from parent model during upload.
-	 * Key: asset field path (e.g., "custom.sku")
-	 * Value: model field path (e.g., "sku")
+	 * Key: target field path (e.g., "custom.sku")
+	 * Value: source model field path (e.g., "sku")
 	 */
 	auto_fill_custom: Record<string, string>;
 
 	/**
-	 * Asset type to use for uploads.
-	 * @default asset_query.type
+	 * Target type to use for uploads.
+	 * @default target_query.type
 	 */
 	type?: string;
 
@@ -104,10 +104,10 @@ export interface LinkedAssetUploadConfig {
 }
 
 /**
- * Unlink configuration for linked assets.
- * Defines how to remove the link between asset and parent model.
+ * Unlink configuration for linked models.
+ * Defines how to remove the link between target and source model.
  */
-export interface LinkedAssetUnlinkConfig {
+export interface LinkedUnlinkConfig {
 	/**
 	 * Which custom field to clear when unlinking.
 	 * Should match a key from upload.auto_fill_custom.
@@ -122,45 +122,45 @@ export interface LinkedAssetUnlinkConfig {
 }
 
 /**
- * Asset query configuration within a rule.
+ * Target query configuration within a rule.
  */
-export interface LinkedAssetQueryConfig {
+export interface LinkedQueryConfig {
 	/**
-	 * Asset domain to query.
+	 * Target domain to query.
 	 * @default "asset"
 	 */
 	domain?: string;
 
 	/**
-	 * Asset entity/collection to query.
+	 * Target entity/collection to query.
 	 * @default "asset"
 	 */
 	entity?: string;
 
 	/**
-	 * Asset type filter (e.g., "product-image").
+	 * Target type filter (e.g., "product-image").
 	 * If specified, adds `type:eq:<value>` to conditions.
 	 */
 	type?: string;
 
 	/**
-	 * Conditions to build the asset query.
+	 * Conditions to build the target query.
 	 * Combined with AND logic.
 	 */
-	conditions: LinkedAssetCondition[];
+	conditions: LinkedCondition[];
 
 	/**
 	 * Always include these base conditions.
-	 * @default [{ asset_field: "is_enabled", operator: "eq", value_source: "literal", value: true }]
+	 * @default [{ target_field: "is_enabled", operator: "eq", value_source: "literal", value: true }]
 	 */
-	base_conditions?: LinkedAssetCondition[];
+	base_conditions?: LinkedCondition[];
 }
 
 /**
  * Match context configuration.
  * Defines when a rule should be applied.
  */
-export interface LinkedAssetMatchConfig {
+export interface LinkedMatchConfig {
 	/** Domain to match (e.g., "product") */
 	domain?: string;
 	/** Entity/collection to match (e.g., "product", "category") */
@@ -170,10 +170,10 @@ export interface LinkedAssetMatchConfig {
 }
 
 /**
- * A single linked assets rule configuration.
- * Defines when and how to show/manage linked assets for a specific model context.
+ * A single linked rule configuration.
+ * Defines when and how to show/manage linked models for a specific model context.
  */
-export interface LinkedAssetRule {
+export interface LinkedRule {
 	/** Unique identifier for this rule */
 	id: string;
 
@@ -184,16 +184,16 @@ export interface LinkedAssetRule {
 	description?: MaybeLocalized<string>;
 
 	/** When to apply this rule (AND logic, omitted = any) */
-	match: LinkedAssetMatchConfig;
+	match: LinkedMatchConfig;
 
-	/** Asset query configuration */
-	asset_query: LinkedAssetQueryConfig;
+	/** Target query configuration */
+	target_query: LinkedQueryConfig;
 
 	/** Upload configuration - enables CRUD mode when present */
-	upload?: LinkedAssetUploadConfig;
+	upload?: LinkedUploadConfig;
 
 	/** Unlink configuration - defines how to remove links */
-	unlink?: LinkedAssetUnlinkConfig;
+	unlink?: LinkedUnlinkConfig;
 
 	/**
 	 * Whether this rule is enabled.
@@ -209,17 +209,17 @@ export interface LinkedAssetRule {
 }
 
 /**
- * The complete linked assets configuration structure.
- * Stored as the value of the `__joy_linked_assets__` config record.
+ * The complete linked configuration structure.
+ * Stored as the value of the `__joy_linked__` config record.
  */
-export interface LinkedAssetsConfig {
+export interface LinkedConfig {
 	/**
 	 * Schema version for future migrations.
 	 */
 	version: number;
 
 	/**
-	 * Array of linked asset rules.
+	 * Array of linked rules.
 	 */
-	rules: LinkedAssetRule[];
+	rules: LinkedRule[];
 }

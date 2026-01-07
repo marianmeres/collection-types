@@ -46,11 +46,13 @@ export type ExampleData = ExampleDataDefault | ExampleDataFoo | ExampleDataBar;
 // Comment Collection Types
 // -----------------------------------------------------------------------------
 
-/** Comment model data for testing strong relations */
+/** Comment model data for testing strong and linked relations */
 export interface CommentData {
 	body: string;
 	author_name?: string;
 	created_at?: string;
+	/** Links to examples with matching slug (for linked relation testing) */
+	example_slug?: string;
 	/** Index signature for Model<T> compatibility */
 	[key: string]: unknown;
 }
