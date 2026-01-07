@@ -1,9 +1,15 @@
 /**
- * Custom Pages Configuration Types
+ * Custom Pages Configuration Types (v2 - 3-Level Hierarchy)
  *
  * These types define the structure of the `__joy_custom_pages__` config record
- * stored in the project's config collection. They establish a contract for
- * defining project-specific custom UI pages with lazy loading support.
+ * stored in the project's config collection.
+ *
+ * Hierarchy:
+ * - Level 1: Group (shown in sidebar with expand/collapse)
+ * - Level 2: Page (shown as items within expanded group)
+ * - Level 3: Tab (shown as tabs within a page)
+ *
+ * URL Pattern: #/p/{projectId}/custom/{groupId}/{pageId}?/{tabPath}?
  *
  * @module custom-pages/types
  */
@@ -11,23 +17,23 @@
 import type { MaybeLocalized } from "./utils.ts";
 
 /**
- * Nested route definition within a custom page.
- * Supports tabs, wizard steps, or multi-step flows.
+ * Tab definition within a page (Level 3).
+ * Tabs are rendered as secondary navigation within a page.
  */
-export interface CustomPageNestedRoute {
+export interface CustomPageTab {
 	/**
-	 * Unique path segment (e.g., "overview", "settings", "step-1").
-	 * Used in URL: #/p/{projectId}/custom/{pageId}/{path}
+	 * Unique path segment for this tab.
+	 * Used in URL: #/p/{projectId}/custom/{groupId}/{pageId}/{path}
 	 */
 	path: string;
 
 	/**
-	 * Display label for navigation (tabs, breadcrumbs).
+	 * Display label for the tab.
 	 */
 	label: MaybeLocalized<string>;
 
 	/**
-	 * Icon identifier for the tab/step.
+	 * Icon identifier for the tab.
 	 */
 	icon?: string;
 
@@ -38,21 +44,79 @@ export interface CustomPageNestedRoute {
 	order?: number;
 
 	/**
-	 * Whether this is the default route when parent page is accessed.
-	 * If no default is specified, the first route by order is used.
+	 * Whether this is the default tab when page is accessed without tab path.
+	 * If no default is specified, the first tab by order is used.
 	 */
 	default?: boolean;
 
 	/**
-	 * Component file name within _routes/ directory.
-	 * Defaults to path if not specified.
-	 * @example "Overview" for "_routes/Overview.svelte"
+	 * Component file name within _tabs/ directory.
+	 * Defaults to capitalized path if not specified.
+	 * @example "Overview" for "_tabs/Overview.svelte"
 	 */
 	component?: string;
 }
 
 /**
- * Navigation metadata for a custom page.
+ * Page definition within a group (Level 2).
+ * Pages are shown as items within an expanded group in the sidebar.
+ */
+export interface CustomPageDef {
+	/**
+	 * Unique identifier for this page within the group.
+	 * Used in URL: #/p/{projectId}/custom/{groupId}/{id}
+	 * Must match directory name: src/custom-pages/pages/{groupId}/{id}/
+	 */
+	id: string;
+
+	/**
+	 * Display label for the page in navigation.
+	 */
+	label: MaybeLocalized<string>;
+
+	/**
+	 * Human-readable description of what this page does.
+	 */
+	description?: string;
+
+	/**
+	 * Icon identifier for the page.
+	 */
+	icon?: string;
+
+	/**
+	 * Display order within the group (lower = first).
+	 * @default 0
+	 */
+	order?: number;
+
+	/**
+	 * Whether this is the default page when group is accessed without page ID.
+	 * If no default is specified, the first page by order is used.
+	 */
+	default?: boolean;
+
+	/**
+	 * Whether this page is enabled.
+	 * @default true
+	 */
+	enabled?: boolean;
+
+	/**
+	 * Component file name (defaults to "Page" for Page.svelte).
+	 */
+	component?: string;
+
+	/**
+	 * Tabs within this page (Level 3).
+	 * If specified and non-empty, the page will show tab navigation.
+	 * If empty or undefined, page content is rendered directly.
+	 */
+	tabs?: CustomPageTab[];
+}
+
+/**
+ * Navigation metadata for a group.
  */
 export interface CustomPageNavMeta {
 	/**
@@ -70,67 +134,49 @@ export interface CustomPageNavMeta {
 	 * @default 0
 	 */
 	order?: number;
-
-	/**
-	 * Optional grouping label for organizing multiple custom pages.
-	 */
-	group?: MaybeLocalized<string>;
-
-	/**
-	 * Icon for the group header.
-	 */
-	groupIcon?: string;
 }
 
 /**
- * A single custom page definition.
+ * Group definition (Level 1).
+ * Groups are shown in the sidebar with expand/collapse functionality.
  */
-export interface CustomPageDef {
+export interface CustomPageGroupDef {
 	/**
-	 * Unique identifier for this page.
+	 * Unique identifier for this group.
 	 * Used in URL: #/p/{projectId}/custom/{id}
-	 * Must match directory name in src/custom-pages/pages/{id}/
+	 * Must match directory name: src/custom-pages/pages/{id}/
 	 */
 	id: string;
 
 	/**
-	 * Human-readable description of what this page does.
+	 * Human-readable description of this group.
 	 */
 	description?: string;
 
 	/**
-	 * Route pattern for this page.
-	 * Supports parameters: /reports/[reportType]
-	 * Defaults to "/{id}" if not specified.
-	 */
-	route?: string;
-
-	/**
-	 * Navigation metadata.
-	 */
-	nav: CustomPageNavMeta;
-
-	/**
-	 * Nested routes (tabs, wizard steps, etc.)
-	 * If specified, the page component receives an `activeNestedRoute` prop.
-	 */
-	nestedRoutes?: CustomPageNestedRoute[];
-
-	/**
-	 * Whether this page is enabled.
+	 * Whether this group is enabled.
 	 * @default true
 	 */
 	enabled?: boolean;
 
 	/**
+	 * Navigation metadata for the group.
+	 */
+	nav: CustomPageNavMeta;
+
+	/**
+	 * Pages within this group (Level 2).
+	 */
+	pages: CustomPageDef[];
+
+	/**
 	 * Priority for route matching (higher = checked first).
-	 * Prevents conflicts with more generic routes.
 	 * @default 0
 	 */
 	priority?: number;
 
 	/**
-	 * Required permissions to access this page.
+	 * Required permissions to access this group.
 	 * If specified, user must have at least one of these permissions.
 	 */
 	permissions?: string[];
@@ -157,20 +203,19 @@ export interface CustomPagesNavSection {
 }
 
 /**
- * The complete custom pages configuration structure.
+ * The complete custom pages configuration structure (v2).
  * Stored as the `value` of the `__joy_custom_pages__` config record.
  */
 export interface CustomPagesConfig {
 	/**
-	 * Schema version for future migrations.
-	 * @default 1
+	 * Schema version. Must be 2 for 3-level hierarchy.
 	 */
 	version: number;
 
 	/**
-	 * Array of custom page definitions.
+	 * Array of group definitions (Level 1).
 	 */
-	pages: CustomPageDef[];
+	groups: CustomPageGroupDef[];
 
 	/**
 	 * Section configuration for the navigation.
