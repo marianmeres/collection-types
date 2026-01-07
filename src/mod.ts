@@ -88,3 +88,6 @@ export * from "./form-routes.ts";
 
 // Custom Pages Configuration Types (admin UI)
 export * from "./custom-pages.ts";
+
+// Joy Config Types (admin UI)
+export * from "./joy-config.ts";
