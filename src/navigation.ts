@@ -98,3 +98,85 @@ export interface NavItemDef {
 	group?: MaybeLocalized<string>;
 	groupIcon?: string;
 }
+
+// =============================================================================
+// Unified Area Navigation Types
+// =============================================================================
+
+/**
+ * Area identifiers for the admin SPA.
+ * Each area represents a distinct section of the application with its own
+ * routing pattern and navigation structure.
+ */
+export type AreaId = "cms" | "custom" | "customer" | "extra";
+
+/**
+ * Base nav item structure shared across all areas.
+ * Designed to support hierarchical navigation (groups, pages, tabs).
+ */
+export interface AreaNavItem {
+	/** Unique identifier for this nav item within its parent */
+	id: string;
+	/** Display label */
+	label: MaybeLocalized<string>;
+	/** Navigation href (relative to area prefix) */
+	href?: string;
+	/** Icon identifier */
+	icon?: string;
+	/** Display order (lower = first) */
+	order?: number;
+	/** Required permissions to see this item */
+	permissions?: string[];
+	/** Children for hierarchical nav (groups → pages → tabs) */
+	children?: AreaNavItem[];
+	/**
+	 * Area-specific metadata.
+	 * CMS: { domain, entity, type, types: CollectionTypeEntry[] }
+	 * Custom: { description, component, tabs }
+	 * Customer: { section }
+	 * Extra: {}
+	 */
+	meta?: Record<string, unknown>;
+}
+
+/**
+ * Area-specific navigation configuration.
+ */
+export interface AreaNavConfig {
+	/** Whether this area is enabled for the project */
+	enabled: boolean;
+	/** Section header configuration in sidebar */
+	section?: {
+		label?: MaybeLocalized<string>;
+		icon?: string;
+		/** Display order relative to other area sections */
+		order?: number;
+		/** Whether to show a divider above this section */
+		divider?: boolean;
+	};
+	/** Navigation items for this area */
+	items: AreaNavItem[];
+}
+
+/**
+ * Unified navigation response from server.
+ * Single endpoint serves all area navigation for a project.
+ *
+ * URL pattern: GET /api/{projectId}/nav
+ */
+export interface UnifiedNavResponse {
+	/** Schema version for future migrations */
+	version: number;
+	/**
+	 * Default landing configuration when accessing project root.
+	 * If not specified, falls back to first enabled area.
+	 */
+	landing?: {
+		/** Target area */
+		area: AreaId;
+		/** Optional specific route within area (e.g., "dashboard/main" for custom) */
+		route?: string;
+	};
+	/** Per-area navigation configuration */
+	areas: Partial<Record<AreaId, AreaNavConfig>>;
+}
