@@ -151,8 +151,6 @@ export interface AreaNavConfig {
 		icon?: string;
 		/** Display order relative to other area sections */
 		order?: number;
-		/** Whether to show a divider above this section */
-		divider?: boolean;
 	};
 	/** Navigation items for this area */
 	items: AreaNavItem[];
