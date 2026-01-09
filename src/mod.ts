@@ -91,3 +91,6 @@ export * from "./area-pages.ts";
 
 // Joy Config Types (admin UI)
 export * from "./joy-config.ts";
+
+// Joy Response Types (unified config endpoint)
+export * from "./joy-response.ts";
