@@ -1,17 +1,17 @@
 /**
- * Custom Pages Configuration Types (v2 - 3-Level Hierarchy)
+ * Area Pages Configuration Types (Unified 3-Level Hierarchy)
  *
- * These types define the structure of the `__joy_custom_pages__` config record
- * stored in the project's config collection.
+ * Generic type definitions for area-based page hierarchies in the admin SPA.
+ * Used by both "custom" and "customer" areas (and potentially others).
  *
  * Hierarchy:
  * - Level 1: Group (shown in sidebar with expand/collapse)
  * - Level 2: Page (shown as items within expanded group)
- * - Level 3: Tab (shown as tabs within a page)
+ * - Level 3: Tab (optional, within a page)
  *
- * URL Pattern: #/p/{projectId}/custom/{groupId}/{pageId}?/{tabPath}?
+ * URL Pattern: #/p/{projectId}/{areaId}/{groupId}/{pageId}?/{tabPath}?
  *
- * @module custom-pages/types
+ * @module area-pages/types
  */
 
 import type { MaybeLocalized } from "./utils.ts";
@@ -20,10 +20,10 @@ import type { MaybeLocalized } from "./utils.ts";
  * Tab definition within a page (Level 3).
  * Tabs are rendered as secondary navigation within a page.
  */
-export interface CustomPageTab {
+export interface AreaPageTab {
 	/**
 	 * Unique path segment for this tab.
-	 * Used in URL: #/p/{projectId}/custom/{groupId}/{pageId}/{path}
+	 * Used in URL: #/p/{projectId}/{area}/{groupId}/{pageId}/{path}
 	 */
 	path: string;
 
@@ -61,11 +61,11 @@ export interface CustomPageTab {
  * Page definition within a group (Level 2).
  * Pages are shown as items within an expanded group in the sidebar.
  */
-export interface CustomPageDef {
+export interface AreaPageDef {
 	/**
 	 * Unique identifier for this page within the group.
-	 * Used in URL: #/p/{projectId}/custom/{groupId}/{id}
-	 * Must match directory name: src/custom-pages/pages/{groupId}/{id}/
+	 * Used in URL: #/p/{projectId}/{area}/{groupId}/{id}
+	 * Must match directory name: src/routes/{area}/pages/{groupId}/{id}/
 	 */
 	id: string;
 
@@ -112,25 +112,25 @@ export interface CustomPageDef {
 	 * If specified and non-empty, the page will show tab navigation.
 	 * If empty or undefined, page content is rendered directly.
 	 */
-	tabs?: CustomPageTab[];
+	tabs?: AreaPageTab[];
 }
 
 /**
  * Navigation metadata for a group.
  */
-export interface CustomPageNavMeta {
+export interface AreaPageGroupNavMeta {
 	/**
 	 * Display label in navigation.
 	 */
 	label: MaybeLocalized<string>;
 
 	/**
-	 * Icon identifier (matches ICON_MAP in LeftSidebarNav).
+	 * Icon identifier (matches ICON_MAP in sidebar).
 	 */
 	icon?: string;
 
 	/**
-	 * Display order in the custom pages section (lower = first).
+	 * Display order in the area section (lower = first).
 	 * @default 0
 	 */
 	order?: number;
@@ -140,11 +140,11 @@ export interface CustomPageNavMeta {
  * Group definition (Level 1).
  * Groups are shown in the sidebar with expand/collapse functionality.
  */
-export interface CustomPageGroupDef {
+export interface AreaPageGroupDef {
 	/**
 	 * Unique identifier for this group.
-	 * Used in URL: #/p/{projectId}/custom/{id}
-	 * Must match directory name: src/custom-pages/pages/{id}/
+	 * Used in URL: #/p/{projectId}/{area}/{id}
+	 * Must match directory name: src/routes/{area}/pages/{id}/
 	 */
 	id: string;
 
@@ -162,12 +162,12 @@ export interface CustomPageGroupDef {
 	/**
 	 * Navigation metadata for the group.
 	 */
-	nav: CustomPageNavMeta;
+	nav: AreaPageGroupNavMeta;
 
 	/**
 	 * Pages within this group (Level 2).
 	 */
-	pages: CustomPageDef[];
+	pages: AreaPageDef[];
 
 	/**
 	 * Priority for route matching (higher = checked first).
@@ -183,13 +183,18 @@ export interface CustomPageGroupDef {
 }
 
 /**
- * Navigation section configuration for custom pages.
+ * Navigation section configuration for area pages.
  */
-export interface CustomPagesNavSection {
+export interface AreaPagesNavSection {
 	/**
 	 * Section header label.
 	 */
 	label?: MaybeLocalized<string>;
+
+	/**
+	 * Section icon.
+	 */
+	icon?: string;
 
 	/**
 	 * Section display order relative to other nav sections.
@@ -203,22 +208,63 @@ export interface CustomPagesNavSection {
 }
 
 /**
- * The complete custom pages configuration structure (v2).
- * Stored as the `value` of the `__joy_custom_pages__` config record.
+ * The complete area pages configuration structure.
+ * Stored as the value of an area's config record (e.g., `__joy_custom_pages__`).
  */
-export interface CustomPagesConfig {
+export interface AreaPagesConfig {
 	/**
-	 * Schema version. Must be 2 for 3-level hierarchy.
+	 * Schema version.
 	 */
 	version: number;
 
 	/**
 	 * Array of group definitions (Level 1).
 	 */
-	groups: CustomPageGroupDef[];
+	groups: AreaPageGroupDef[];
 
 	/**
 	 * Section configuration for the navigation.
 	 */
-	navSection?: CustomPagesNavSection;
+	navSection?: AreaPagesNavSection;
+}
+
+// -----------------------------------------------------------------------------
+// Type aliases for backwards compatibility and area-specific semantics
+// These allow code to use more specific names while sharing the same types
+// -----------------------------------------------------------------------------
+
+/** @deprecated Use AreaPageTab instead */
+export type CustomPageTab = AreaPageTab;
+/** @deprecated Use AreaPageDef instead */
+export type CustomPageDef = AreaPageDef;
+/** @deprecated Use AreaPageGroupNavMeta instead */
+export type CustomPageNavMeta = AreaPageGroupNavMeta;
+/** @deprecated Use AreaPageGroupDef instead */
+export type CustomPageGroupDef = AreaPageGroupDef;
+/** @deprecated Use AreaPagesNavSection instead */
+export type CustomPagesNavSection = AreaPagesNavSection;
+/** @deprecated Use AreaPagesConfig instead */
+export type CustomPagesConfig = AreaPagesConfig;
+
+/** @deprecated Use AreaPageTab instead */
+export type CustomerSectionTab = AreaPageTab;
+/** @deprecated Use AreaPageDef instead */
+export type CustomerSectionDef = AreaPageDef;
+/** @deprecated Use AreaPageGroupNavMeta instead */
+export type CustomerGroupNavMeta = AreaPageGroupNavMeta;
+/** @deprecated Use AreaPagesNavSection instead */
+export type CustomerSectionsNavSection = AreaPagesNavSection;
+/** @deprecated Use AreaPagesConfig instead */
+export type CustomerSectionsConfig = AreaPagesConfig;
+
+/**
+ * CustomerGroupDef - alias with 'sections' property for backwards compatibility.
+ * @deprecated Use AreaPageGroupDef instead (with 'pages' property)
+ */
+export interface CustomerGroupDef extends Omit<AreaPageGroupDef, "pages"> {
+	/**
+	 * Sections within this group (Level 2).
+	 * @deprecated Use 'pages' instead
+	 */
+	sections: AreaPageDef[];
 }
