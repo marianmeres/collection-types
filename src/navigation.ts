@@ -145,6 +145,12 @@ export interface AreaNavItem {
 export interface AreaNavConfig {
 	/** Whether this area is enabled for the project */
 	enabled: boolean;
+	/**
+	 * Permissions required to see this area at all (area-level gating).
+	 * User needs at least ONE of these permissions to see the area.
+	 * This is separate from item-level permissions which filter content within the area.
+	 */
+	requiredPermissions?: string[];
 	/** Section header configuration in sidebar */
 	section?: {
 		label?: MaybeLocalized<string>;
