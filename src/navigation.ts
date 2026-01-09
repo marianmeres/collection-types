@@ -38,7 +38,7 @@ export interface ModuleRegistryEntry {
 }
 
 /**
- * Navigation configuration stored in __nav_config__ model.
+ * Navigation configuration stored in __joy_nav_cms__ model.
  * Allows customization of auto-generated navigation.
  */
 export interface NavConfig {

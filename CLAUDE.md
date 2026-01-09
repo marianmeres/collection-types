@@ -139,7 +139,7 @@ const wildcardMatch: FormRouteMatch = { domain: "product", entity: "*", type: "*
 
 ## Navigation Types
 
-Types for admin UI navigation generation stored in `__nav_config__`:
+Types for admin UI navigation generation stored in `__joy_nav_cms__`:
 
 ```typescript
 import type { NavConfig, NavItemDef, ModuleRegistryEntry } from "@marianmeres/collection-types";
