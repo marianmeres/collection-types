@@ -1,3 +1,27 @@
+export type TW_COLORS =
+	| "amber"
+	| "blue"
+	| "cyan"
+	| "emerald"
+	| "fuchsia"
+	| "gray"
+	| "green"
+	| "indigo"
+	| "lime"
+	| "neutral"
+	| "orange"
+	| "pink"
+	| "purple"
+	| "red"
+	| "rose"
+	| "sky"
+	| "slate"
+	| "stone"
+	| "teal"
+	| "violet"
+	| "yellow"
+	| "zinc";
+
 /**
  * Base configuration interface for Joy admin UI.
  * Extensible via index signature - consumers can add custom fields.
@@ -23,7 +47,17 @@ export interface JoyConfig {
 	stuic?: {
 		DismissibleMessage?: {
 			/** Theme color for dismissible messages */
-			theme?: string;
+			theme?: TW_COLORS;
+		};
+		Notifications?: {
+			/** Theme color for error notifications */
+			themeError?: TW_COLORS;
+			/** Theme color for success notifications */
+			themeSuccess?: TW_COLORS;
+			/** Theme color for info notifications */
+			themeInfo?: TW_COLORS;
+			/** Theme color for warning notifications */
+			themeWarn?: TW_COLORS;
 		};
 		[component: string]: Record<string, unknown> | undefined;
 	};
