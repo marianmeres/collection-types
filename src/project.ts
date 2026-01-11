@@ -13,6 +13,7 @@ export interface ConfigDataDefault {
 	key: string;
 	value?: unknown;
 	internal_description?: string;
+	custom?: Record<string, unknown>;
 	/** Index signature for Model<T> compatibility */
 	[key: string]: unknown;
 }
