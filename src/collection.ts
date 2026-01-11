@@ -23,6 +23,7 @@ export interface FolderDefinition {
 export interface TagDefinition {
 	label?: string;
 	color?: string;
+	[key: string]: unknown;
 }
 
 /**
@@ -51,8 +52,8 @@ export interface CollectionDTOIn {
 	is_readonly?: boolean;
 	/** Folder definitions */
 	folders?: Record<string, FolderDefinition>;
-	/** Tag definitions */
-	tags?: Record<string, TagDefinition>;
+	/** Tag definitions per model type */
+	tags?: Record<string, Record<string, TagDefinition>>;
 }
 
 /**
