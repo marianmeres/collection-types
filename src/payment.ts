@@ -47,34 +47,31 @@ export interface PaymentIntent {
 	provider_data?: Record<string, unknown>;
 }
 
-/** Result of capturing/completing a payment */
+/**
+ * Result of capturing/completing a payment.
+ * Errors are thrown, not returned.
+ */
 export interface PaymentResult {
-	/** Whether capture succeeded */
-	success: boolean;
 	/** Provider reference ID */
 	provider_reference: string;
-	/** Error message if failed */
-	error?: string;
 }
 
-/** Result of a refund operation */
+/**
+ * Result of a refund operation.
+ * Errors are thrown, not returned.
+ */
 export interface RefundResult {
-	/** Whether refund succeeded */
-	success: boolean;
 	/** Refund ID from provider */
-	refund_id?: string;
-	/** Error message if failed */
-	error?: string;
+	refund_id: string;
 }
 
-/** Result of processing a webhook */
+/**
+ * Result of processing a webhook.
+ * Errors are thrown, not returned.
+ */
 export interface WebhookResult {
-	/** Whether webhook was processed successfully */
-	success: boolean;
 	/** Event type from provider */
-	event_type?: string;
+	event_type: string;
 	/** Related payment ID */
 	payment_id?: UUID;
-	/** Error message if failed */
-	error?: string;
 }
