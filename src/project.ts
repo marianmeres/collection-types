@@ -47,3 +47,39 @@ export interface ConfigDataRbac extends ConfigDataDefault {
 
 /** Union of all config data types */
 export type ConfigData = ConfigDataDefault | ConfigDataRbac;
+
+// -----------------------------------------------------------------------------
+// Delivery Options Types (for checkout)
+// -----------------------------------------------------------------------------
+
+/** Single delivery option */
+export interface DeliveryOption {
+	/** Unique identifier */
+	id: string;
+	/** Display name */
+	name: string;
+	/** Description shown to customer */
+	description?: string;
+	/** Base price in cents */
+	price: number;
+	/** Estimated delivery time (e.g., "2-3 business days") */
+	estimated_time?: string;
+	/** Whether this option is currently available */
+	is_active: boolean;
+	/** Sort order for display */
+	sort_order: number;
+	/** Optional: minimum order amount for this option (in cents) */
+	min_order_amount?: number;
+	/** Optional: free shipping threshold (in cents) */
+	free_above?: number;
+}
+
+/** Delivery options configuration (stored in project config) */
+export interface DeliveryOptionsConfig {
+	/** Default currency for prices */
+	currency: string;
+	/** Available delivery options */
+	options: DeliveryOption[];
+	/** Default option ID when none selected */
+	default_option_id?: string;
+}

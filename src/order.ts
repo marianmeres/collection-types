@@ -22,6 +22,15 @@ export type OrderStatus =
 	| "delivered"
 	| "cancelled";
 
+/** Checkout stages for tracking progress */
+export type CheckoutStage =
+	| "cart"
+	| "addresses"
+	| "delivery"
+	| "confirm"
+	| "payment"
+	| "complete";
+
 /** Single order line item (snapshot at purchase time) */
 export interface OrderLineItem {
 	/** Product model_id for reference */
@@ -50,6 +59,14 @@ export interface OrderTotals {
 	total: number;
 }
 
+/** Delivery option snapshot at checkout time */
+export interface DeliveryOptionSnapshot {
+	id: string;
+	name: string;
+	price: number;
+	estimated_time?: string;
+}
+
 /** Order data field schema */
 export interface OrderData {
 	/** Current order status */
@@ -66,6 +83,17 @@ export interface OrderData {
 	billing_address: AddressData;
 	/** Order notes */
 	notes?: string;
+
+	// Checkout-specific fields
+	/** Selected delivery option ID */
+	delivery_option_id?: string;
+	/** Delivery option snapshot at checkout time */
+	delivery_option?: DeliveryOptionSnapshot;
+	/** Customer email (for tracking, especially guest checkout) */
+	customer_email?: string;
+	/** Current checkout stage */
+	checkout_stage?: CheckoutStage;
+
 	/** Index signature for compatibility with UserData */
 	[key: string]: unknown;
 }

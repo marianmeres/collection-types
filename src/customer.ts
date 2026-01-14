@@ -14,14 +14,29 @@
 export interface CustomerData {
 	/** Customer email */
 	email: string;
-	/** Customer display name */
-	name: string;
+	/** Customer first name */
+	first_name: string;
+	/** Customer last name */
+	last_name: string;
 	/** Phone number */
 	phone?: string;
 	/** True if customer has no linked account */
 	guest: boolean;
 	/** Marketing consent */
 	accepts_marketing: boolean;
+
+	// B2B fields
+	/** Company name for B2B customers */
+	company_name?: string;
+	/** Tax identification number */
+	tax_id?: string;
+	/** VAT number for EU businesses */
+	vat_number?: string;
+
+	// Extensible preferences
+	/** Project-specific customer preferences */
+	preferences?: Record<string, unknown>;
+
 	/** Index signature for compatibility with UserData */
 	[key: string]: unknown;
 }
