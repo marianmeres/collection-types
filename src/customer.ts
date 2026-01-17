@@ -35,7 +35,10 @@ export interface CustomerData {
 
 	// Extensible preferences
 	/** Project-specific customer preferences */
-	preferences?: Record<string, unknown>;
+	custom?: Record<string, unknown>;
+
+	// UI-only fields (relation placeholders, never stored in data)
+	addresses?: never;
 
 	/** Index signature for compatibility with UserData */
 	[key: string]: unknown;
@@ -53,12 +56,17 @@ export interface AddressData {
 	city: string;
 	/** Postal/ZIP code */
 	postal_code: string;
-	/** Country code or name */
+	/** Country code or name (legacy/fallback) */
 	country: string;
 	/** Contact phone */
 	phone?: string;
 	/** Whether this is the default address for its type */
 	is_default: boolean;
+
+	// UI-only fields (relation placeholders, never stored in data)
+	/** Country relation (UI-only, stored in relations table) */
+	country_rel?: never;
+
 	/** Index signature for compatibility with UserData */
 	[key: string]: unknown;
 }
