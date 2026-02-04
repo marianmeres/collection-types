@@ -1,182 +1,59 @@
-# AGENTS.md
+# @marianmeres/collection-types — Agent Guide
 
-## Project Overview
+## Quick Reference
 
-Type-only package for the @marianmeres ecosystem. No runtime code - pure TypeScript type definitions.
+| | |
+|-|-|
+| **Stack** | TypeScript (type definitions only) |
+| **Runtime** | Deno (dev), publishes to JSR + npm |
+| **Type check** | `deno check src/mod.ts` |
+| **Release** | `deno task rp` (patch) / `deno task rpm` (minor) |
 
-## Structure
+## Project Structure
 
 ```
 src/
-├── mod.ts           # Main entry point, re-exports all modules
-├── utils.ts         # Branded types (UUID, ISODateString, LtreePath) and helpers
-├── model.ts         # Model entity types (DTOIn → DTOOut → DbRow pattern)
-├── collection.ts    # Collection entity types
-├── relation.ts      # Relation and RelationType entity types
-├── schema.ts        # JSON Schema extensions for UI/form generation
-├── api.ts           # API response wrappers, pagination, query syntax
-├── asset.ts         # File attachment types
-├── linked-assets.ts # Metadata-based asset linking configuration
-├── adapter.ts       # Database adapter interface types
-├── navigation.ts    # Admin UI navigation menu types
-└── form-routes.ts   # Form route override configuration types
+├── mod.ts              # Entry point (barrel export)
+├── utils.ts            # Branded types (UUID, ISODateString, LtreePath)
+├── model.ts            # Model entity types
+├── collection.ts       # Collection container types
+├── relation.ts         # Relation and RelationType entity types
+├── schema.ts           # JSON Schema extensions for UI/form generation
+├── schema-builder.ts   # Type-safe schema builder (createObjectSchema)
+├── api.ts              # API response wrappers, pagination, query syntax
+├── asset.ts            # File attachment types
+├── adapter.ts          # Database adapter interface types
+├── linked.ts           # Metadata-based asset linking configuration
+├── navigation.ts       # Admin UI navigation menu types
+├── form-routes.ts      # Form route override configuration types
+└── [domain].ts         # Domain-specific data types (account, customer, order, etc.)
 ```
 
-## Key Patterns
+## Critical Conventions
 
-- **DTO Layering**: `DTOIn` (input) → `DTOOut` (+ server fields) → `DbRow` (+ internal fields)
-- **Branded Types**: `UUID`, `ISODateString`, `LtreePath` for compile-time safety
-- **Internal Fields**: Prefixed with `__` (e.g., `__is_rest_disabled`, `__searchable`)
-- **Server Fields**: Prefixed with `_` (e.g., `_created_at`, `_updated_at`)
+1. **DTO Layering**: `DTOIn` (input) → `DTOOut` (+ server fields) → `DbRow` (+ internal fields)
+2. **Field Prefixes**: `__` internal (not exposed), `_` server-managed (read-only), none user-provided
+3. **Branded Types**: Use `UUID`, `ISODateString`, `LtreePath` for compile-time safety
+4. **Flat Structure**: All types in src/, no subdirectories
+5. **JSDoc Comments**: All exports documented inline
+6. **Generic Models**: Use `Model<TData>` for typed data access
 
-## Build & Publish
+## Before Making Changes
 
-```bash
-deno task rp        # Release patch + publish to JSR and npm
-deno task rpm       # Release minor + publish
-deno check src/mod.ts  # Type check
-```
+- [ ] Read existing types in target file first
+- [ ] Follow DTO layering pattern if adding entity types
+- [ ] Add JSDoc comments to new exports
+- [ ] Run `deno check src/mod.ts`
+- [ ] Export from mod.ts if adding new public types
+- [ ] Formatting: tabs, 4-space indent width, 90 char line width
 
 ## Related Packages
 
-- `@marianmeres/condition-builder` - QueryOperator type is mirrored from here
-- Uses Deno for development, publishes to both JSR and npm
+- `@marianmeres/condition-builder` — QueryOperator type is mirrored from here
 
-## Notes
+## Documentation Index
 
-- All exports have JSDoc comments
-- Flat file structure (no subdirectories in src/)
-- Formatting: tabs, 4-space indent width, 90 char line width
-
-## Type Hierarchy
-
-```
-Model:        ModelDTOIn → ModelDTOOut → ModelDbRow → Model<TData>
-Collection:   CollectionDTOIn → CollectionDTOOut → CollectionDbRow (= Collection)
-RelationType: RelationTypeDTOIn → RelationTypeDTOOut → RelationTypeDbRow (= RelationType)
-Relation:     RelationDTOIn → RelationDTOOut → RelationDbRow (= Relation)
-```
-
-## Type Catalog
-
-### utils.ts - Branded Types & Helpers
-
-| Type | Description |
-|------|-------------|
-| `UUID` | String type for UUIDs |
-| `ISODateString` | String type for ISO 8601 dates |
-| `LtreePath` | String type for PostgreSQL ltree paths |
-| `MaybeLocalized<T>` | `T \| Record<string, T>` for localized values |
-| `JsonPrimitive` | `string \| number \| boolean \| null` |
-| `JsonObject` | `{ [key: string]: JsonValue }` |
-| `JsonArray` | `JsonValue[]` |
-| `JsonValue` | `JsonPrimitive \| JsonObject \| JsonArray` |
-| `UserData` | `Record<string, unknown>` for flexible data |
-| `Brand<T, B>` | Helper for creating branded types |
-
-### model.ts - Model Entity Types
-
-| Type | Description |
-|------|-------------|
-| `ModelDTOIn` | Input DTO (type, parent_id, path, folder, tags, data, meta, flags) |
-| `ModelDTOOut` | + model_id, collection_id, depth, _label, _created_at, _updated_at |
-| `ModelDbRow` | + __is_rest_disabled, __searchable, __searchable2, __hierarchy_path |
-| `ModelUpsertData` | + __relations__ for relation upserts |
-| `Model<TData>` | Generic type with typed data field |
-
-### collection.ts - Collection Container Types
-
-| Type | Description |
-|------|-------------|
-| `FolderDefinition` | Folder config (label, description, color) |
-| `TagDefinition` | Tag config (label, color) |
-| `CollectionDTOIn` | Input DTO (path, cardinality, types, schemas, defaults, folders, tags) |
-| `CollectionDTOOut` | + collection_id, project_id, _created_at, _updated_at |
-| `CollectionDbRow` | + __is_rest_disabled |
-| `Collection` | Alias for CollectionDbRow |
-
-### relation.ts - Relationship Types
-
-| Type | Description |
-|------|-------------|
-| `RelationTypeDTOIn` | Input DTO (relation_type, model_collection_id, related_collection_id) |
-| `RelationTypeDTOOut` | + _relation_type_id, cardinality fields, timestamps |
-| `RelationTypeDbRow` | + __is_rest_disabled |
-| `RelationType` | Alias for RelationTypeDbRow |
-| `RelationDTOIn` | Input DTO (related_id, weak_related_id, sort_order, flags, meta) |
-| `RelationDTOOut` | + relation_id, _relation_type_id, model_id, timestamps |
-| `RelationDbRow` | Equals RelationDTOOut |
-| `Relation` | Alias for RelationDbRow |
-
-### schema.ts - JSON Schema Extensions
-
-| Type | Description |
-|------|-------------|
-| `SchemaHtmlType` | Union: text, textarea, wysiwyg, number, boolean, select, multiselect, date, datetime, time, color, relation, asset, json, code |
-| `RelationTypeConfig` | Config for relation fields (relation_type, domain, entity, cardinality) |
-| `AssetTypeConfig` | Config for asset fields (accept, maxSize, variants) |
-| `SelectConfig` | Config for select fields (options array) |
-| `SchemaHtmlConfig` | HTML field config (type, _type_config, rows, placeholder, help, readonly, hidden) |
-| `CustomSchemaKeywords` | Custom keywords (_default, _html, _title, _description, _label_source, _unique, _searchable, _order) |
-| `PropertyDefinition` | JSON Schema + custom keywords |
-| `ModelDefinition` | Model type schema (properties, required) |
-
-### api.ts - API & Query Types
-
-| Type | Description |
-|------|-------------|
-| `PaginationMeta` | Pagination info (limit, offset, total, hasMore) |
-| `ApiResponse<T>` | Generic response wrapper (data, meta) |
-| `ApiListResponse<T>` | List response with pagination and included relations |
-| `QueryOperator` | Filter operators: eq, neq, gt, gte, lt, lte, like, nlike, match, nmatch, is, nis, in, nin, ltree, ancestor, descendant |
-| `QueryCondition` | Single filter condition (field, operator, value) |
-| `QuerySyntax` | Query params (where, search, order, asc, limit, offset) |
-
-### asset.ts - File Attachment Types
-
-| Type | Description |
-|------|-------------|
-| `AssetVariant` | Asset variant (name, width, height, format, url) |
-| `AssetData` | Asset metadata (filename, mimetype, size, url, variants, metadata) |
-| `ModelAsset` | Asset attached to model (asset_id, model_id, field_name, sort_order, data, timestamps) |
-
-### adapter.ts - Database Adapter Types
-
-| Type | Description |
-|------|-------------|
-| `DbQueryResult<T>` | Query result (rows, rowCount) |
-| `QueryProvider` | DB interface (type: "pg" \| "sqlite", query, each) |
-| `AdapterOptions` | Adapter config (tablePrefix, preInitSql, postInitSql, projectIdFk, resetAll) |
-
-### linked-assets.ts - Metadata-Based Asset Linking
-
-| Type | Description |
-|------|-------------|
-| `LinkedAssetOperator` | Match operators: eq, neq, lt, lte, gt, gte, like, ilike, in, nin, ?, descendant |
-| `LinkedAssetValueSource` | Value source: "literal" or "model_field" |
-| `LinkedAssetCondition` | Single matching condition (asset_field, operator, value_source, value) |
-| `LinkedAssetUploadConfig` | Upload config (auto_fill_custom, type, accept, cardinality) |
-| `LinkedAssetUnlinkConfig` | Unlink config (field, confirm) |
-| `LinkedAssetQueryConfig` | Query config (domain, entity, type, conditions, base_conditions) |
-| `LinkedAssetMatchConfig` | Match context (domain, entity, type) |
-| `LinkedAssetRule` | Single rule (id, label, match, asset_query, upload, unlink, enabled, order) |
-| `LinkedAssetsConfig` | Complete config with version and rules array |
-
-### navigation.ts - Admin UI Navigation
-
-| Type | Description |
-|------|-------------|
-| `CollectionTypeEntry` | Type entry within collection (name, schemaTitle) |
-| `ModuleRegistryEntry` | Domain module registry (domain, mount, domainLabel, collections) |
-| `NavConfig` | Navigation customization (overrides, hidden, custom items) |
-| `NavItemDef` | Output nav item (label, href, domain, entity, type, id, folder, icon, group) |
-
-### form-routes.ts - Form Route Overrides
-
-| Type | Description |
-|------|-------------|
-| `HttpMethod` | HTTP methods for forms: "POST", "PUT", "DELETE" |
-| `FormRouteMatch` | Matching context (domain, entity, type, method) with wildcard support |
-| `FormRouteRule` | Single override rule (id, description, match, endpoint, enabled, priority) |
-| `FormRoutesConfig` | Complete config with version and rules array |
-| `FormRouteContext` | Runtime lookup context for route resolution |
+| Document | Purpose |
+|----------|---------|
+| [docs/type-catalog.md](./docs/type-catalog.md) | Complete type reference (100+ types) |
+| [README.md](./README.md) | Installation, user guide, best practices |
