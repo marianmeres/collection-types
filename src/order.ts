@@ -135,3 +135,11 @@ export type OrderType = "order";
 
 /** Order event type identifier */
 export type OrderEventModelType = "event";
+
+/** Result of order creation, includes server-assigned metadata */
+export interface OrderCreateResult {
+	/** Server-assigned model ID */
+	model_id: UUID;
+	/** The order data payload */
+	data: OrderData;
+}

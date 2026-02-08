@@ -35,6 +35,20 @@ export interface PaymentData {
 /** Payment type identifier */
 export type PaymentType = "payment";
 
+/** Configuration for initiating a payment */
+export interface PaymentInitConfig {
+	/** Payment provider identifier (e.g. "stripe", "paypal") */
+	provider: string;
+	/** Amount in smallest currency unit (e.g. cents) */
+	amount: number;
+	/** ISO 4217 currency code */
+	currency: string;
+	/** URL to redirect after payment completion */
+	return_url?: string;
+	/** Provider-specific additional configuration */
+	[key: string]: unknown;
+}
+
 // Provider interface types (for implementing payment providers)
 
 /** Result of initiating a payment */

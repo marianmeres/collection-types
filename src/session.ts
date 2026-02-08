@@ -25,9 +25,17 @@ export interface CartData {
 	items: CartItem[];
 }
 
-/** Wishlist contents - simple array of product IDs */
+/** Single wishlist item */
+export interface WishlistItem {
+	/** Product reference */
+	product_id: UUID;
+	/** Timestamp when item was added */
+	added_at?: number;
+}
+
+/** Wishlist contents */
 export interface WishlistData {
-	items: UUID[];
+	items: WishlistItem[];
 }
 
 /** Session data field schema */

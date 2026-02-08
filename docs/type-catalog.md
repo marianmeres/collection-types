@@ -134,3 +134,44 @@ Relation:     RelationDTOIn → RelationDTOOut → RelationDbRow (= Relation)
 | `FormRouteRule` | Single override rule (id, description, match, endpoint, enabled, priority) |
 | `FormRoutesConfig` | Complete config with version and rules array |
 | `FormRouteContext` | Runtime lookup context for route resolution |
+
+## session.ts — Session & Cart Types
+
+| Type | Description |
+|------|-------------|
+| `CartItem` | Single cart item (product_id, quantity) |
+| `CartData` | Cart contents (items: CartItem[]) |
+| `WishlistItem` | Single wishlist item (product_id, added_at?) |
+| `WishlistData` | Wishlist contents (items: WishlistItem[]) |
+| `SessionData` | Session data (cart, wishlist) |
+| `SessionType` | Type identifier: "session" |
+
+## payment.ts — Payment Types
+
+| Type | Description |
+|------|-------------|
+| `PaymentStatus` | Status: pending, completed, failed, refunded |
+| `PaymentData` | Payment data (provider, status, amount, currency, provider_reference) |
+| `PaymentType` | Type identifier: "payment" |
+| `PaymentInitConfig` | Payment initiation config (provider, amount, currency, return_url?) |
+| `PaymentIntent` | Payment initiation result (id, redirect_url, provider_data?) |
+| `PaymentResult` | Payment capture result (provider_reference) |
+| `RefundResult` | Refund result (refund_id) |
+| `WebhookResult` | Webhook processing result (event_type, payment_id?) |
+
+## order.ts — Order Types
+
+| Type | Description |
+|------|-------------|
+| `OrderStatus` | Status: pending, paid, processing, shipped, delivered, cancelled |
+| `CheckoutStage` | Checkout stages: cart, addresses, delivery, confirm, payment, complete |
+| `OrderLineItem` | Line item snapshot (product_id, sku?, name, price, quantity) |
+| `OrderTotals` | Price totals (subtotal, tax, shipping, discount, total) |
+| `DeliveryOptionSnapshot` | Delivery option snapshot (id, name, price, estimated_time?) |
+| `OrderData` | Order data (status, items, currency, totals, addresses, delivery, checkout) |
+| `OrderEventType` | Event types: created, status_changed, payment_added, note_added, cancelled |
+| `OrderEventActor` | Event actor (type: customer/admin/system, id?) |
+| `OrderEventData` | Order event audit trail (event_type, statuses, actor, details?) |
+| `OrderType` | Type identifier: "order" |
+| `OrderEventModelType` | Event type identifier: "event" |
+| `OrderCreateResult` | Order creation result (model_id, data: OrderData) |
