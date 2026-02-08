@@ -77,10 +77,10 @@ export interface OrderData {
 	currency: string;
 	/** Price totals */
 	totals: OrderTotals;
-	/** Shipping address (embedded snapshot) */
-	shipping_address: AddressData;
-	/** Billing address (embedded snapshot) */
-	billing_address: AddressData;
+	/** Shipping address (embedded snapshot, set during checkout) */
+	shipping_address?: AddressData;
+	/** Billing address (embedded snapshot, set during checkout) */
+	billing_address?: AddressData;
 	/** Order notes */
 	notes?: string;
 
