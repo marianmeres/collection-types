@@ -26,6 +26,13 @@ export interface JoyResponse {
 	version: number;
 
 	/**
+	 * Base URL for serving asset files, resolved from the server's storage adapter config.
+	 * When a remote storage adapter is configured, this points to the remote server.
+	 * Otherwise falls back to the local `/api/asset/static/` path.
+	 */
+	assetBaseUrl?: string;
+
+	/**
 	 * App configuration from `__joy_config__`.
 	 * Contains UI settings like title, theme overrides, etc.
 	 */
