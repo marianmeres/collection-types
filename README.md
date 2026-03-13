@@ -174,7 +174,7 @@ const schemas = {
 5. Keep index signature for Model<T> compatibility
 6. Re-export types from stack package mod.ts
 
-See `workspace/stack-example/README.md` for comprehensive examples.
+See `packages/stack-example/README.md` for comprehensive examples.
 
 ## License
 
