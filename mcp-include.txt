@@ -1,0 +1,1 @@
+Type definitions and schema utilities for the collection management system. Provides core types (Model, Collection, Relation), branded types (UUID, ISODateString, LtreePath), domain types (Account, Product, Order, Customer, Session, etc.), and the createObjectSchema<T>() builder for type-safe schema definitions.
