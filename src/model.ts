@@ -40,6 +40,8 @@ export interface ModelDTOIn {
 	is_starred?: boolean;
 	/** Whether model is enabled/active */
 	is_enabled?: boolean;
+	/** Owner identifier (account model_id). Weak reference, no FK constraint. */
+	owner_id?: string | null;
 	/** Color flags */
 	red?: boolean;
 	orange?: boolean;
@@ -71,6 +73,8 @@ export interface ModelDTOOut extends ModelDTOIn {
 	_created_at: ISODateString;
 	/** Last update timestamp */
 	_updated_at: ISODateString;
+	/** Owner identifier (account model_id), null if not owner-scoped */
+	owner_id: string | null;
 }
 
 /**

@@ -7,6 +7,17 @@ import type { UUID, ISODateString, LtreePath, UserData } from "./utils.ts";
 import type { PropertyDefinition } from "./schema.ts";
 
 /**
+ * Defines how ownership (`owner_id`) behaves for a collection.
+ *
+ * - `null` — not owner-scoped (default, current behavior)
+ * - `"optional"` — owner_id can be set but isn't required
+ * - `"required"` — owner_id must be set on every model in this collection
+ * - `"auto"` — owner_id is automatically set from request context on create
+ *              (and required — reject creates without it)
+ */
+export type OwnerIdMode = "optional" | "required" | "auto" | null;
+
+/**
  * Definition for a folder within a collection.
  * Folders organize models hierarchically.
  */
@@ -54,6 +65,8 @@ export interface CollectionDTOIn {
 	folders?: Record<string, FolderDefinition>;
 	/** Tag definitions per model type */
 	tags?: Record<string, Record<string, TagDefinition>>;
+	/** Ownership mode for models in this collection */
+	owner_id_mode?: OwnerIdMode;
 }
 
 /**
@@ -79,6 +92,8 @@ export interface CollectionDTOOut extends CollectionDTOIn {
 	_created_at: ISODateString;
 	/** Last update timestamp */
 	_updated_at: ISODateString;
+	/** Ownership mode for models in this collection (default null = not owner-scoped) */
+	owner_id_mode: OwnerIdMode;
 }
 
 /**
