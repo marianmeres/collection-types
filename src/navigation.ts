@@ -108,7 +108,7 @@ export interface NavItemDef {
  * Each area represents a distinct section of the application with its own
  * routing pattern and navigation structure.
  */
-export type AreaId = "cms" | "custom" | "customer" | "extra";
+export type AreaId = "cms" | "custom" | "customer" | "extra" | "me";
 
 /**
  * Base nav item structure shared across all areas.
