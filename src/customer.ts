@@ -37,6 +37,15 @@ export interface CustomerData {
 	/** Project-specific customer preferences */
 	custom?: Record<string, unknown>;
 
+	/**
+	 * Guest-session identifier (X-Session-ID at the time the customer row
+	 * was created), stamped only when the customer is created without an
+	 * authenticated subject (i.e. `owner_id IS NULL`, `guest: true`). Acts
+	 * as a lookup key for the explicit "claim guest customer" flow when
+	 * the visitor later registers/logs in. Never set for owned customers.
+	 */
+	guest_session_id?: string;
+
 	// UI-only fields (relation placeholders, never stored in data)
 	addresses?: never;
 

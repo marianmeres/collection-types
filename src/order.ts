@@ -93,6 +93,14 @@ export interface OrderData {
 	customer_email?: string;
 	/** Current checkout stage */
 	checkout_stage?: CheckoutStage;
+	/**
+	 * Guest-session identifier (X-Session-ID at the time of /checkout/start),
+	 * stamped only when the order is created without an authenticated subject
+	 * (i.e. `owner_id IS NULL`). Acts as a lookup key for the explicit "claim
+	 * guest order" flow when the visitor later registers/logs in. Never set
+	 * for owned (account-linked) orders.
+	 */
+	guest_session_id?: string;
 
 	/** Index signature for compatibility with UserData */
 	[key: string]: unknown;
