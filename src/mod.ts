@@ -89,7 +89,7 @@ export * from "./navigation.ts";
 // Form Routes Configuration Types (admin UI)
 export * from "./form-routes.ts";
 
-// Area Pages Configuration Types (unified custom/customer pages - admin UI)
+// Area Pages Configuration Types (unified custom/user pages - admin UI)
 export * from "./area-pages.ts";
 
 // Joy Config Types (admin UI)

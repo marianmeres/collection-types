@@ -57,8 +57,8 @@ export interface JoyResponse {
 	customPages: AreaPagesConfig | null;
 
 	/**
-	 * Customer pages configuration from `__joy_customer_pages__`.
+	 * User pages configuration from `__joy_user_pages__`.
 	 * 3-level hierarchy: Group -> Page -> Tab.
 	 */
-	customerPages: AreaPagesConfig | null;
+	userPages: AreaPagesConfig | null;
 }

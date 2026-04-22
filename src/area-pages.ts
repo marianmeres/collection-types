@@ -2,7 +2,7 @@
  * Area Pages Configuration Types (Unified 3-Level Hierarchy)
  *
  * Generic type definitions for area-based page hierarchies in the admin SPA.
- * Used by both "custom" and "customer" areas (and potentially others).
+ * Used by both "custom" and "user" areas (and potentially others).
  *
  * Hierarchy:
  * - Level 1: Group (shown in sidebar with expand/collapse)
