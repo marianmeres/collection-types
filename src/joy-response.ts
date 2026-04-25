@@ -13,6 +13,20 @@ import type { JoyConfig } from "./joy-config.ts";
 import type { LinkedConfig } from "./linked.ts";
 
 /**
+ * Account auth flags advertised to the SPA so it can show/hide registration
+ * UI without an extra round trip. Populated server-side from the same boot
+ * options that drive `createAccountApp` / `bootstrapAccount`.
+ */
+export interface JoyAuthMeta {
+	/** Whether `POST /account/register` is enabled. Drives the Sign-up tab. */
+	allowSelfRegistration: boolean;
+	/** Whether OAuth providers may create new accounts (vs login-only). */
+	allowOAuthRegistration: boolean;
+	/** Whether the email verification gate is on (drives the OTP step). */
+	requireVerifiedEmail: boolean;
+}
+
+/**
  * Consolidated Joy configuration response.
  * Single endpoint replaces 5 individual config fetches.
  *
@@ -61,4 +75,9 @@ export interface JoyResponse {
 	 * 3-level hierarchy: Group -> Page -> Tab.
 	 */
 	userPages: AreaPagesConfig | null;
+
+	/**
+	 * Account auth flags. Optional for back-compat — older servers may omit it.
+	 */
+	auth?: JoyAuthMeta;
 }
