@@ -11,7 +11,7 @@
     "rpm": "deno task release minor -y && deno task publish"
   },
   "imports": {
-    "@marianmeres/npmbuild": "jsr:@marianmeres/npmbuild@^1.14.0"
+    "@marianmeres/npmbuild": "jsr:@marianmeres/npmbuild@^1.16.0"
   },
   "fmt": {
     "useTabs": true,
