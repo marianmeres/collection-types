@@ -102,6 +102,15 @@ export interface OrderData {
 	 */
 	guest_session_id?: string;
 
+	/**
+	 * App-specific extras — mirrors `ProductData.custom` / `CategoryData.custom`.
+	 * Use for extension data that doesn't warrant a typed field (e.g. an
+	 * injected shipping calculator's breakdown, third-party tracking refs).
+	 * Validated by the runtime order schema with `additionalProperties: true`.
+	 * Namespace sub-keys per app to avoid collisions (e.g. `carsinc_shipping`).
+	 */
+	custom?: Record<string, unknown>;
+
 	/** Index signature for compatibility with UserData */
 	[key: string]: unknown;
 }
