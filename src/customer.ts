@@ -65,8 +65,16 @@ export interface AddressData {
 	city: string;
 	/** Postal/ZIP code */
 	postal_code: string;
-	/** Country code or name (legacy/fallback) */
+	/** Country code (ISO alpha-2 from the stuic ≥ 3.85 picker; legacy rows
+	 *  may still hold free-text values like "United States"). */
 	country: string;
+	/**
+	 * State / region / province. Optional at the schema level; the checkout
+	 * flow enforces it for US addresses (substantive for tax + shipping
+	 * carrier). Free text — no enum today; see plan for future US-state
+	 * dropdown follow-up.
+	 */
+	state_or_region?: string;
 	/** Contact phone */
 	phone?: string;
 	/** Whether this is the default address for its type */
