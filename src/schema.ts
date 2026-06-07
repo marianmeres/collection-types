@@ -10,6 +10,7 @@ export type SchemaHtmlType =
 	| "text"
 	| "textarea"
 	| "wysiwyg"
+	| "markdown"
 	| "number"
 	| "boolean"
 	| "checkbox"
