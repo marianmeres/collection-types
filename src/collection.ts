@@ -76,8 +76,8 @@ export interface CollectionDTOIn {
 export interface CollectionDTOOut extends CollectionDTOIn {
 	/** Unique collection identifier */
 	collection_id: UUID;
-	/** Project this collection belongs to */
-	project_id: UUID;
+	/** Tenant this collection belongs to */
+	tenant_id: string;
 	/** Unique path identifier (ltree format) */
 	path: LtreePath;
 	/** Maximum number of models allowed (-1 for unlimited, default -1) */

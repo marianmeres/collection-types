@@ -19,8 +19,8 @@ import type { UUID, ISODateString, UserData } from "./utils.ts";
  * ```
  */
 export interface RelationTypeDTOIn {
-	/** Project identifier */
-	project_id?: UUID;
+	/** Tenant identifier */
+	tenant_id?: string;
 	/** Unique relation type name (business key) */
 	relation_type?: string;
 	/** Collection ID of the "from" models */

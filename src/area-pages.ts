@@ -9,7 +9,7 @@
  * - Level 2: Page (shown as items within expanded group)
  * - Level 3: Tab (optional, within a page)
  *
- * URL Pattern: #/p/{projectId}/{areaId}/{groupId}/{pageId}?/{tabPath}?
+ * URL Pattern: #/t/{tenantId}/{areaId}/{groupId}/{pageId}?/{tabPath}?
  *
  * @module area-pages/types
  */
@@ -23,7 +23,7 @@ import type { MaybeLocalized } from "./utils.ts";
 export interface AreaPageTab {
 	/**
 	 * Unique path segment for this tab.
-	 * Used in URL: #/p/{projectId}/{area}/{groupId}/{pageId}/{path}
+	 * Used in URL: #/t/{tenantId}/{area}/{groupId}/{pageId}/{path}
 	 */
 	path: string;
 
@@ -64,7 +64,7 @@ export interface AreaPageTab {
 export interface AreaPageDef {
 	/**
 	 * Unique identifier for this page within the group.
-	 * Used in URL: #/p/{projectId}/{area}/{groupId}/{id}
+	 * Used in URL: #/t/{tenantId}/{area}/{groupId}/{id}
 	 * Must match directory name: src/routes/{area}/pages/{groupId}/{id}/
 	 */
 	id: string;
@@ -143,7 +143,7 @@ export interface AreaPageGroupNavMeta {
 export interface AreaPageGroupDef {
 	/**
 	 * Unique identifier for this group.
-	 * Used in URL: #/p/{projectId}/{area}/{id}
+	 * Used in URL: #/t/{tenantId}/{area}/{id}
 	 * Must match directory name: src/routes/{area}/pages/{id}/
 	 */
 	id: string;

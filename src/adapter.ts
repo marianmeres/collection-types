@@ -43,8 +43,8 @@ export interface AdapterOptions {
 	postInitSql: string;
 	/** Custom SQL for userland initialization */
 	customPreInitSql: string;
-	/** Foreign key constraint to project table */
-	projectIdFk: null | { table: string; column: string };
+	/** Foreign key constraint to the tenant table */
+	tenantIdFk: null | { table: string; column: string };
 	/** Reset all data before initialization (tests only) */
 	resetAll: boolean;
 }
