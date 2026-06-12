@@ -80,6 +80,9 @@ export * from "./email.ts";
 // Example domain types (reference implementation)
 export * from "./example.ts";
 
+// Inbox domain types (notification inbox)
+export * from "./inbox.ts";
+
 // Schema builder utilities (type-safe schema definitions)
 export * from "./schema-builder.ts";
 
