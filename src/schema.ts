@@ -12,6 +12,7 @@ export type SchemaHtmlType =
 	| "wysiwyg"
 	| "markdown"
 	| "number"
+	| "money"
 	| "boolean"
 	| "checkbox"
 	| "parent"
@@ -62,6 +63,25 @@ export interface KeyValuesConfig {
 	emptyMessage?: string;
 }
 
+/**
+ * Configuration for `money` fields (`_html.type: "money"`).
+ *
+ * The value is stored as an INTEGER number of minor units (e.g. cents) — the
+ * JSON Schema `type` should be `"integer"`. The UI displays/edits it as a major
+ * unit decimal (e.g. dollars): display = stored / `scale`, input = entered *
+ * `scale` (rounded). Keeping this in the schema makes "this field is money"
+ * authoritative for every surface (list display, form input, import transform)
+ * instead of guessing from the field name.
+ */
+export interface MoneyConfig {
+	/** Minor units per major unit. Default 100 (cents → dollars). */
+	scale?: number;
+	/** Decimal places to display. Default 2. */
+	decimals?: number;
+	/** Optional ISO currency code, for surfaces that render a symbol (e.g. "USD"). */
+	currency?: string;
+}
+
 /** Configuration for _html schema keyword */
 export interface SchemaHtmlConfig {
 	/** Field type for UI rendering */
@@ -71,7 +91,8 @@ export interface SchemaHtmlConfig {
 		| RelationTypeConfig
 		| AssetTypeConfig
 		| SelectConfig
-		| KeyValuesConfig;
+		| KeyValuesConfig
+		| MoneyConfig;
 
 	/** Display label (can be localized) */
 	label?: MaybeLocalized<string>;
