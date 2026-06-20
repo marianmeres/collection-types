@@ -68,6 +68,10 @@ export interface PaymentIntent {
 export interface PaymentResult {
 	/** Provider reference ID */
 	provider_reference: string;
+	/** Optional provider verification summary (e.g. PayPal payer email/id,
+	 *  capture status, seller-protection eligibility) surfaced for admin review.
+	 *  Provider-specific keys; undefined when the provider supplies none. */
+	verification?: Record<string, unknown>;
 }
 
 /**
