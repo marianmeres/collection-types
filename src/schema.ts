@@ -18,6 +18,7 @@ export type SchemaHtmlType =
 	| "parent"
 	| "object"
 	| "select"
+	| "status"
 	| "multiselect"
 	| "date"
 	| "datetime"
@@ -49,9 +50,10 @@ export interface AssetTypeConfig {
 	variants?: string[];
 }
 
-/** Configuration for select/multiselect fields */
+/** Configuration for select/multiselect/status fields */
 export interface SelectConfig {
-	options: Array<{ value: string; label: string }>;
+	/** `intent` (status fields) carries the per-value badge color. */
+	options: Array<{ value: string; label: string; intent?: string }>;
 	multiple?: boolean;
 }
 

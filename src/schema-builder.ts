@@ -41,6 +41,13 @@ export type ObjectSchema<T> = {
 	_searchable?: boolean;
 	/** Virtual form-only fields (not persisted, excluded from DB validation) */
 	_extra_form_fields?: Record<string, PropertyDefinition>;
+	/**
+	 * Admin list-view hint: append these top-level model timestamp columns to the
+	 * DataTable (rendered from the model row, not `data.*`). Operational
+	 * collections (orders, invoices, …) typically want "when was this placed /
+	 * last touched" in the list.
+	 */
+	_data_table_dates?: ("_created_at" | "_updated_at")[];
 };
 
 /** Extended schema (loose typing for __extends patterns) */

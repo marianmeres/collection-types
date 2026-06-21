@@ -20,7 +20,10 @@ export type OrderStatus =
 	| "processing"
 	| "shipped"
 	| "delivered"
-	| "cancelled";
+	| "cancelled"
+	/** System-set by the abandoned-checkout maintenance sweep (never via the
+	 * customer/admin transition API); a terminal, off-sequence state. */
+	| "abandoned";
 
 /** Checkout stages for tracking progress */
 export type CheckoutStage =
