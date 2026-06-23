@@ -107,8 +107,12 @@ export interface NavItemDef {
  * Area identifiers for the admin SPA.
  * Each area represents a distinct section of the application with its own
  * routing pattern and navigation structure.
+ *
+ * `todo` is a bespoke direct-route area (the `me`/`extra` precedent — NOT in the
+ * client AreaRegistry); it ships as a prebuilt passthrough from
+ * `__joy_nav__.areas.todo`, gated to root only via `requiredPermissions`.
  */
-export type AreaId = "cms" | "custom" | "user" | "extra" | "me";
+export type AreaId = "cms" | "custom" | "user" | "extra" | "me" | "todo";
 
 /**
  * Base nav item structure shared across all areas.
