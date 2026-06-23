@@ -118,9 +118,6 @@ export interface SchemaHtmlConfig {
 	readonly?: boolean;
 	/** Hidden field */
 	hidden?: boolean;
-	/** Hidden field — the flag the joy console actually reads (getFormFields
-	 *  filters on `_html._hidden`). Kept alongside `hidden` for that consumer. */
-	_hidden?: boolean;
 
 	/** UI-specific default (distinct from _default) (typically JSON serialized) */
 	_default?: string;
