@@ -72,6 +72,16 @@ export interface DeliveryOptionSnapshot {
 
 /** Order data field schema */
 export interface OrderData {
+	/**
+	 * Public, customer-facing order identifier shown in place of the model UUID
+	 * everywhere the customer is involved (checkout confirmation, emails, the
+	 * printed order document, account order history). Non-sequential Crockford
+	 * base32 (uppercase, length 6), generated and uniqueness-checked at creation,
+	 * then FROZEN — never changed on any subsequent update. Mirrors
+	 * `InvoiceData.code`. Optional so legacy/admin-created rows that predate the
+	 * field still type-check; read paths fall back to `shortOrderRef(model_id)`.
+	 */
+	code?: string;
 	/** Current order status */
 	status: OrderStatus;
 	/** Line items (snapshots) */

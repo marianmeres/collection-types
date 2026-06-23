@@ -54,6 +54,15 @@ export interface NavConfig {
 			label?: MaybeLocalized<string>;
 			order?: number;
 			icon?: string;
+			/**
+			 * Stable, non-localized key that buckets this domain/entity into a
+			 * nav group. Defaults to the domain. Set the SAME `groupKey` (and a
+			 * matching `group` label) on several entries to merge multiple
+			 * domains under one group — e.g. `order` + `invoice` → "Sales".
+			 * Must be a plain string (it is used as a Map key), never a
+			 * localized object.
+			 */
+			groupKey?: string;
 			group?: MaybeLocalized<string>;
 			groupIcon?: string;
 			folder?: string; // Optional: sub-folder path
