@@ -41,6 +41,12 @@ export interface RelationTypeConfig {
 	type?: string;
 	/** Allow unknown relations */
 	allow_unknown?: boolean;
+	/**
+	 * When true (and the relation is multi-value, i.e. `cardinality !== 1`), the
+	 * admin UI exposes a manual reorder control. The chosen order is persisted as
+	 * the relation `sort_order`. No-op for single-cardinality relations.
+	 */
+	ordered?: boolean;
 }
 
 /** Configuration for asset-type fields in schema */
