@@ -20,7 +20,7 @@ export interface DbQueryResult<T = Record<string, unknown>> {
  */
 export interface QueryProvider {
 	/** Query provider type */
-	type: "pg" | "sqlite";
+	type: "pg";
 	/** Execute a query and return results */
 	query(sql: string, params?: unknown[]): Promise<DbQueryResult>;
 	/** Execute a query with cursor-style row iteration */
