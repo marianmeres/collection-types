@@ -3,7 +3,7 @@
  * Assets are file attachments associated with models.
  */
 
-import type { UUID, ISODateString } from "./utils.ts";
+import type { ISODateString, UUID } from "./utils.ts";
 
 /**
  * Variant of an asset (e.g., thumbnail, preview).

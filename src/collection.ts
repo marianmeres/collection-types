@@ -3,7 +3,7 @@
  * Collections are containers for models with schema definitions.
  */
 
-import type { UUID, ISODateString, LtreePath, UserData } from "./utils.ts";
+import type { ISODateString, LtreePath, UserData, UUID } from "./utils.ts";
 import type { PropertyDefinition } from "./schema.ts";
 
 /**

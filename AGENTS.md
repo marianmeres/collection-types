@@ -15,6 +15,7 @@ entry: "./src/mod.ts"
 ## Purpose
 
 Type definitions and schema utilities for the collection management system:
+
 - Core types: Model, Collection, Relation
 - Branded types: UUID, ISODateString, LtreePath
 - Domain types: Account, Product, Order, Customer, Session, etc.
@@ -23,17 +24,17 @@ Type definitions and schema utilities for the collection management system:
 
 ## Quick Reference
 
-| Task | File | Key Export |
-|------|------|------------|
-| Branded types | `src/utils.ts` | `UUID`, `ISODateString`, `LtreePath` |
-| Model types | `src/model.ts` | `Model<T>`, `ModelDTOIn`, `ModelDTOOut` |
-| Collection types | `src/collection.ts` | `Collection`, `CollectionDTOIn` |
-| Relation types | `src/relation.ts` | `Relation`, `RelationType` |
-| Schema types | `src/schema.ts` | `PropertyDefinition`, `JsonSchema` |
-| Schema builder | `src/schema-builder.ts` | `createObjectSchema<T>()` |
-| API types | `src/api.ts` | `ApiResponse`, `PaginatedResponse` |
-| Asset types | `src/asset.ts` | `AssetData`, `AssetVariant` |
-| Navigation types | `src/navigation.ts` | `NavItem`, `UnifiedNavigation` |
+| Task             | File                    | Key Export                              |
+| ---------------- | ----------------------- | --------------------------------------- |
+| Branded types    | `src/utils.ts`          | `UUID`, `ISODateString`, `LtreePath`    |
+| Model types      | `src/model.ts`          | `Model<T>`, `ModelDTOIn`, `ModelDTOOut` |
+| Collection types | `src/collection.ts`     | `Collection`, `CollectionDTOIn`         |
+| Relation types   | `src/relation.ts`       | `Relation`, `RelationType`              |
+| Schema types     | `src/schema.ts`         | `PropertyDefinition`, `JsonSchema`      |
+| Schema builder   | `src/schema-builder.ts` | `createObjectSchema<T>()`               |
+| API types        | `src/api.ts`            | `ApiResponse`, `PaginatedResponse`      |
+| Asset types      | `src/asset.ts`          | `AssetData`, `AssetVariant`             |
+| Navigation types | `src/navigation.ts`     | `NavItem`, `UnifiedNavigation`          |
 
 ## File Map
 
@@ -74,32 +75,54 @@ src/
 
 ```typescript
 // Branded types
-export type { UUID, ISODateString, LtreePath, MaybeLocalized } from "./utils.ts";
-export type { JsonPrimitive, JsonObject, JsonArray, JsonValue, UserData } from "./utils.ts";
+export type { ISODateString, LtreePath, MaybeLocalized, UUID } from "./utils.ts";
+export type {
+	JsonArray,
+	JsonObject,
+	JsonPrimitive,
+	JsonValue,
+	UserData,
+} from "./utils.ts";
 
 // Core entities
-export type { Model, ModelDTOIn, ModelDTOOut, ModelDbRow, ModelUpsertData } from "./model.ts";
-export type { Collection, CollectionDTOIn, CollectionDTOOut, CollectionDbRow } from "./collection.ts";
-export type { Relation, RelationType, RelationDTOIn, RelationTypeDTOIn } from "./relation.ts";
+export type {
+	Model,
+	ModelDbRow,
+	ModelDTOIn,
+	ModelDTOOut,
+	ModelUpsertData,
+} from "./model.ts";
+export type {
+	Collection,
+	CollectionDbRow,
+	CollectionDTOIn,
+	CollectionDTOOut,
+} from "./collection.ts";
+export type {
+	Relation,
+	RelationDTOIn,
+	RelationType,
+	RelationTypeDTOIn,
+} from "./relation.ts";
 
 // Schema
-export type { PropertyDefinition, JsonSchema, HtmlSpec } from "./schema.ts";
-export type { ObjectSchema, ExtendedSchema } from "./schema-builder.ts";
-export { createObjectSchema } from "./schema-builder.ts";  // Runtime function
+export type { HtmlSpec, JsonSchema, PropertyDefinition } from "./schema.ts";
+export type { ExtendedSchema, ObjectSchema } from "./schema-builder.ts";
+export { createObjectSchema } from "./schema-builder.ts"; // Runtime function
 
 // API
-export type { ApiResponse, PaginatedResponse, ApiMeta } from "./api.ts";
+export type { ApiMeta, ApiResponse, PaginatedResponse } from "./api.ts";
 
 // Assets
 export type { AssetData, AssetVariant } from "./asset.ts";
 
 // Domain types
 export type { AccountData, AccountSession } from "./account.ts";
-export type { ProductData, CategoryData } from "./product.ts";
+export type { CategoryData, ProductData } from "./product.ts";
 export type { CustomerData } from "./customer.ts";
 export type { OrderData, OrderItemData } from "./order.ts";
 export type { PaymentData } from "./payment.ts";
-export type { SessionData, CartItem } from "./session.ts";
+export type { CartItem, SessionData } from "./session.ts";
 export type { TemplateData } from "./template.ts";
 export type { EmailData } from "./email.ts";
 
@@ -115,10 +138,10 @@ export type { JoyConfig } from "./joy-config.ts";
 ### Branded Types
 
 ```typescript
-type UUID = string;           // UUID string
-type ISODateString = string;  // ISO 8601 date string
-type LtreePath = string;      // PostgreSQL ltree path
-type MaybeLocalized<T> = T | Record<string, T>;  // i18n support
+type UUID = string; // UUID string
+type ISODateString = string; // ISO 8601 date string
+type LtreePath = string; // PostgreSQL ltree path
+type MaybeLocalized<T> = T | Record<string, T>; // i18n support
 ```
 
 ### Model Layer Types
@@ -126,39 +149,45 @@ type MaybeLocalized<T> = T | Record<string, T>;  // i18n support
 ```typescript
 // Input (user-provided)
 interface ModelDTOIn {
-  type?: string;
-  parent_id?: UUID | null;
-  path?: LtreePath | null;
-  folder?: string | null;
-  tags?: string[];
-  data?: UserData;
-  meta?: UserData;
-  is_unlisted?: boolean;
-  is_deletable?: boolean;
-  is_readonly?: boolean;
-  is_starred?: boolean;
-  is_enabled?: boolean;
-  red?, orange?, yellow?, green?, blue?, purple?, gray?: boolean;
+	type?: string;
+	parent_id?: UUID | null;
+	path?: LtreePath | null;
+	folder?: string | null;
+	tags?: string[];
+	data?: UserData;
+	meta?: UserData;
+	is_unlisted?: boolean;
+	is_deletable?: boolean;
+	is_readonly?: boolean;
+	is_starred?: boolean;
+	is_enabled?: boolean;
+	red?;
+	orange?;
+	yellow?;
+	green?;
+	blue?;
+	purple?;
+	gray?: boolean;
 }
 
 // Output (+ server fields)
 interface ModelDTOOut extends ModelDTOIn {
-  model_id: UUID;
-  collection_id: UUID;
-  type: string;
-  depth: number;
-  _label?: MaybeLocalized<string> | null;
-  _hierarchy_label?: string | null;
-  _created_at: ISODateString;
-  _updated_at: ISODateString;
+	model_id: UUID;
+	collection_id: UUID;
+	type: string;
+	depth: number;
+	_label?: MaybeLocalized<string> | null;
+	_hierarchy_label?: string | null;
+	_created_at: ISODateString;
+	_updated_at: ISODateString;
 }
 
 // Database (+ internal fields)
 interface ModelDbRow extends ModelDTOOut {
-  __is_rest_disabled: boolean;
-  __searchable: Record<string, unknown>;
-  __searchable2: string;
-  __hierarchy_path: LtreePath | null;
+	__is_rest_disabled: boolean;
+	__searchable: Record<string, unknown>;
+	__searchable2: string;
+	__hierarchy_path: LtreePath | null;
 }
 
 // Generic typed model
@@ -169,13 +198,13 @@ type Model<TData extends UserData = UserData> = ModelDbRow & { data: TData };
 
 ```typescript
 interface ObjectSchema<T> {
-  type: "object";
-  required?: (keyof T)[];
-  properties: { [K in keyof T]?: PropertyDefinition };
-  additionalProperties?: boolean;
-  _title?: MaybeLocalized<string>;
-  _description?: MaybeLocalized<string>;
-  _extra_form_fields?: Record<string, PropertyDefinition>;
+	type: "object";
+	required?: (keyof T)[];
+	properties: { [K in keyof T]?: PropertyDefinition };
+	additionalProperties?: boolean;
+	_title?: MaybeLocalized<string>;
+	_description?: MaybeLocalized<string>;
+	_extra_form_fields?: Record<string, PropertyDefinition>;
 }
 
 // Type-safe schema creation
@@ -183,8 +212,8 @@ function createObjectSchema<T>(schema: ObjectSchema<T>): ObjectSchema<T>;
 
 // Inheritance pattern
 type ExtendedSchema = {
-  __extends: string;
-  properties?: Record<string, PropertyDefinition>;
+	__extends: string;
+	properties?: Record<string, PropertyDefinition>;
 };
 ```
 
@@ -213,26 +242,26 @@ Field Prefixes:
 import { createObjectSchema, type Model } from "@marianmeres/collection-types";
 
 interface ProductData {
-  name: string;
-  price: number;
-  sku: string;
+	name: string;
+	price: number;
+	sku: string;
 }
 
 // TypeScript validates property keys match interface
 const productSchema = createObjectSchema<ProductData>({
-  type: "object",
-  required: ["name", "price"],
-  properties: {
-    name: { type: "string", _label_source: true },
-    price: { type: "number" },
-    sku: { type: "string", _unique: true }
-  }
+	type: "object",
+	required: ["name", "price"],
+	properties: {
+		name: { type: "string", _label_source: true },
+		price: { type: "number" },
+		sku: { type: "string", _unique: true },
+	},
 });
 
 // Typed model usage
 type Product = Model<ProductData>;
 const product: Product = await service.findOne(id);
-console.log(product.data.price);  // TypeScript knows this is number
+console.log(product.data.price); // TypeScript knows this is number
 ```
 
 ### Schema Inheritance
@@ -242,23 +271,27 @@ import type { ExtendedSchema } from "@marianmeres/collection-types";
 
 // Base schema
 const baseSchema = createObjectSchema<{ name: string }>({
-  type: "object",
-  properties: { name: { type: "string" } }
+	type: "object",
+	properties: { name: { type: "string" } },
 });
 
 // Extended schema
 const featuredSchema: ExtendedSchema = {
-  __extends: "default",
-  properties: {
-    featured_until: { type: "string", format: "date" }
-  }
+	__extends: "default",
+	properties: {
+		featured_until: { type: "string", format: "date" },
+	},
 };
 ```
 
 ### API Response Types
 
 ```typescript
-import type { ApiResponse, PaginatedResponse, Model } from "@marianmeres/collection-types";
+import type {
+	ApiResponse,
+	Model,
+	PaginatedResponse,
+} from "@marianmeres/collection-types";
 
 // Single item response
 type ProductResponse = ApiResponse<Model<ProductData>>;
@@ -279,6 +312,7 @@ deno task rpm          # Release minor
 ## Dependencies
 
 This is a types-only package with minimal dependencies:
+
 - None (pure TypeScript types)
 
 ## Conventions
@@ -300,7 +334,7 @@ This is a types-only package with minimal dependencies:
 2. **Import style**: Use `import type` for type-only imports to ensure tree-shaking:
    ```typescript
    import type { Model, UUID } from "@marianmeres/collection-types";
-   import { createObjectSchema } from "@marianmeres/collection-types";  // Runtime
+   import { createObjectSchema } from "@marianmeres/collection-types"; // Runtime
    ```
 
 3. **MaybeLocalized**: Fields that support i18n can be either a direct value or a `Record<lang, value>`:

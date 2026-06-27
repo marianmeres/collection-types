@@ -18,11 +18,11 @@ import type { PropertyDefinition } from "./schema.ts";
  * has [key: string]: unknown for Model<T> compatibility.
  */
 type KnownKeys<T> = {
-	[K in keyof T as string extends K
-		? never
-		: number extends K
-			? never
-			: K]: T[K];
+	[
+		K in keyof T as string extends K ? never
+			: number extends K ? never
+			: K
+	]: T[K];
 };
 
 /** Type-safe schema properties - only known keys from T allowed */

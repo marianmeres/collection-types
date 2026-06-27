@@ -3,7 +3,7 @@
  * Relations link models across collections with typed relationships.
  */
 
-import type { UUID, ISODateString, UserData } from "./utils.ts";
+import type { ISODateString, UserData, UUID } from "./utils.ts";
 
 /**
  * Input DTO for creating/updating a relation type.

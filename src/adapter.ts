@@ -27,7 +27,7 @@ export interface QueryProvider {
 	each(
 		sql: string,
 		params: unknown[],
-		onRow: (row: Record<string, unknown>) => Promise<void>
+		onRow: (row: Record<string, unknown>) => Promise<void>,
 	): Promise<void>;
 }
 

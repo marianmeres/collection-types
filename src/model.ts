@@ -4,11 +4,11 @@
  */
 
 import type {
-	UUID,
 	ISODateString,
 	LtreePath,
-	UserData,
 	MaybeLocalized,
+	UserData,
+	UUID,
 } from "./utils.ts";
 
 /**
