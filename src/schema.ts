@@ -29,7 +29,12 @@ export type SchemaHtmlType =
 	| "json"
 	| "code"
 	| "keyvalues"
-	| "password";
+	| "password"
+	// "user": a "weak relation" account picker — renders a combobox sourced from
+	// the `account` collection (optionally role-filtered by the consumer) and
+	// stores the chosen account id as a SCALAR string in `data.*` (NO formal
+	// `__relations__` row). UI-only signal; AJV treats `_html` as opaque.
+	| "user";
 
 /** Configuration for relation-type fields in schema */
 export interface RelationTypeConfig {
