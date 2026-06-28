@@ -95,6 +95,13 @@ export interface MoneyConfig {
 	currency?: string;
 }
 
+/** Configuration for `textarea` fields (`_html.type: "textarea"`). */
+export interface TextareaConfig {
+	/** Visible row count. Absent → the compact, input-like default (1 row). A
+	 *  higher value makes the field read as a textarea (e.g. a description). */
+	rows?: number;
+}
+
 /** Configuration for _html schema keyword */
 export interface SchemaHtmlConfig {
 	/** Field type for UI rendering */
@@ -105,7 +112,8 @@ export interface SchemaHtmlConfig {
 		| AssetTypeConfig
 		| SelectConfig
 		| KeyValuesConfig
-		| MoneyConfig;
+		| MoneyConfig
+		| TextareaConfig;
 
 	/** Display label (can be localized) */
 	label?: MaybeLocalized<string>;
