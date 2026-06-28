@@ -36,6 +36,32 @@ export type SchemaHtmlType =
 	// `__relations__` row). UI-only signal; AJV treats `_html` as opaque.
 	| "user";
 
+/**
+ * A markdown-editor toolbar button key, or `"|"` for a visual separator. Mirrors
+ * stuic's `MarkdownEditor` `ToolbarItem` union (kept local so this shared package
+ * stays free of a stuic dependency). Unknown keys are ignored by the editor.
+ */
+export type MarkdownToolbarItem =
+	| "bold"
+	| "italic"
+	| "heading1"
+	| "heading2"
+	| "heading3"
+	| "heading4"
+	| "heading5"
+	| "heading6"
+	| "link"
+	| "image"
+	| "bulletList"
+	| "orderedList"
+	| "blockquote"
+	| "codeBlock"
+	| "hr"
+	| "hardBreak"
+	| "undo"
+	| "redo"
+	| "|";
+
 /** Configuration for relation-type fields in schema */
 export interface RelationTypeConfig {
 	relation_type: string;
@@ -129,6 +155,26 @@ export interface SchemaHtmlConfig {
 
 	/** Number of textarea rows */
 	rows?: number;
+	/**
+	 * Markdown editor resting-height floor (CSS length string or px number).
+	 * Funneled into `--stuic-markdown-editor-min-height`. Lower it for compact
+	 * fields (e.g. a description in a drawer) so the editor doesn't dominate.
+	 */
+	minHeight?: number | string;
+	/** Markdown editor height cap (CSS length string or px number). */
+	maxHeight?: number | string;
+	/**
+	 * Markdown editor toolbar. An ordered array picks exactly which buttons show
+	 * (use `"|"` for separators); `[]` hides all formatting buttons (the
+	 * Source/Preview toggle still shows). NOTE: `false` is dropped by joy's field
+	 * cleanup, so use `[]` to hide — not `false`.
+	 */
+	toolbar?: boolean | MarkdownToolbarItem[];
+	/**
+	 * Toolbar shown on mobile / touch devices (the editor ignores `toolbar`
+	 * there). Set this too if a custom `toolbar` must also apply on mobile.
+	 */
+	mobileToolbar?: boolean | MarkdownToolbarItem[];
 	/** Input placeholder text */
 	placeholder?: string;
 	/** Help text */
