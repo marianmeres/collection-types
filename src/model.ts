@@ -75,6 +75,13 @@ export interface ModelDTOOut extends ModelDTOIn {
 	_updated_at: ISODateString;
 	/** Owner identifier (account model_id), null if not owner-scoped */
 	owner_id: string | null;
+	/**
+	 * Auto-generated human-friendly short code (uppercase Crockford base32),
+	 * unique per collection and readonly. `null` unless the collection has the
+	 * code feature enabled (`__is_code_enabled`). Not a client-settable input —
+	 * it is generated at insert time, hence on the output DTO only.
+	 */
+	code?: string | null;
 }
 
 /**

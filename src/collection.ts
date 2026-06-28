@@ -67,6 +67,37 @@ export interface CollectionDTOIn {
 	tags?: Record<string, Record<string, TagDefinition>>;
 	/** Ownership mode for models in this collection */
 	owner_id_mode?: OwnerIdMode;
+	/**
+	 * Lightweight-mode kill switch — when `false`, this collection cannot
+	 * participate in relations. Defaults to `true`. **Immutable after creation.**
+	 */
+	__is_relations_enabled?: boolean;
+	/**
+	 * Lightweight-mode kill switch — when `false`, hierarchy machinery
+	 * (`parent_id`, `__hierarchy_path`, `depth`, cycle detection) is skipped.
+	 * `parent_id` in write payloads is rejected. Defaults to `true`.
+	 * **Immutable after creation.**
+	 */
+	__is_hierarchy_enabled?: boolean;
+	/**
+	 * Lightweight-mode kill switch — when `false`, the fulltext indexing path
+	 * (`__searchable`, `__searchable2`, generated tsvectors) is skipped. The
+	 * `data` GIN index remains active, so `data @>` / `data ?` queries still
+	 * work. Defaults to `true`. **Immutable after creation.**
+	 */
+	__is_fulltext_enabled?: boolean;
+	/**
+	 * When `true`, every model created in this collection gets an auto-generated,
+	 * unique-per-collection, readonly short `code` (uppercase Crockford base32).
+	 * Defaults to `false`. **Immutable after creation** — retrofit an existing
+	 * collection via the collection package's `ServiceMaintenance.enableCode`.
+	 */
+	__is_code_enabled?: boolean;
+	/**
+	 * Length of generated `code`s (uppercase Crockford base32). Defaults to 6
+	 * when unset; longer values lower collision probability at scale.
+	 */
+	__code_length?: number | null;
 }
 
 /**
@@ -94,6 +125,16 @@ export interface CollectionDTOOut extends CollectionDTOIn {
 	_updated_at: ISODateString;
 	/** Ownership mode for models in this collection (default null = not owner-scoped) */
 	owner_id_mode: OwnerIdMode;
+	/** Lightweight-mode kill switch — relations subsystem. Immutable. */
+	__is_relations_enabled: boolean;
+	/** Lightweight-mode kill switch — hierarchy subsystem. Immutable. */
+	__is_hierarchy_enabled: boolean;
+	/** Lightweight-mode kill switch — fulltext subsystem. Immutable. */
+	__is_fulltext_enabled: boolean;
+	/** Human-friendly `code` feature flag. Immutable after creation. */
+	__is_code_enabled: boolean;
+	/** Generated `code` length (null = default of 6). */
+	__code_length: number | null;
 }
 
 /**
