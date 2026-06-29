@@ -62,6 +62,14 @@ export type MarkdownToolbarItem =
 	| "redo"
 	| "|";
 
+/**
+ * The markdown editor's active editing surface. Mirrors stuic's `MarkdownEditor`
+ * `MarkdownEditorMode` union (kept local so this shared package stays free of a
+ * stuic dependency). `"wysiwyg"` = the quasi-WYSIWYG (Milkdown) surface;
+ * `"source"` = the raw-markdown (CodeMirror) surface.
+ */
+export type MarkdownEditorMode = "wysiwyg" | "source";
+
 /** Configuration for relation-type fields in schema */
 export interface RelationTypeConfig {
 	relation_type: string;
@@ -175,6 +183,15 @@ export interface SchemaHtmlConfig {
 	 * there). Set this too if a custom `toolbar` must also apply on mobile.
 	 */
 	mobileToolbar?: boolean | MarkdownToolbarItem[];
+	/**
+	 * Markdown editor INITIAL editing surface (default `"wysiwyg"`). Set
+	 * `"source"` to mount in the raw-markdown surface instead. Only the initial
+	 * surface — the Source/Preview toggle still lets the user switch, and the
+	 * choice sticks (joy forwards this one-way to MarkdownEditor's bindable
+	 * `mode`, so nothing resets it on re-render). Note: on mobile/touch the
+	 * editor already starts in source regardless (`autoSourceOnMobile`).
+	 */
+	mode?: MarkdownEditorMode;
 	/** Input placeholder text */
 	placeholder?: string;
 	/** Help text */
