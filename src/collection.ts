@@ -61,9 +61,14 @@ export interface CollectionDTOIn {
 	is_deletable?: boolean;
 	/** Whether collection is read-only */
 	is_readonly?: boolean;
-	/** Folder definitions */
-	folders?: Record<string, FolderDefinition>;
-	/** Tag definitions per model type */
+	/**
+	 * Folder definitions per model type. Outer key is the model type (or the
+	 * special `"__common__"` bucket applied to every type); inner key is the
+	 * folder (ltree) label. Mirrors {@link tags}; this is the shape the server
+	 * reads in `ServiceModel.findAllFolders` (`coll.folders["__common__" | type]`).
+	 */
+	folders?: Record<string, Record<string, FolderDefinition>>;
+	/** Tag definitions per model type (outer key = model type / `"__common__"`). */
 	tags?: Record<string, Record<string, TagDefinition>>;
 	/** Ownership mode for models in this collection */
 	owner_id_mode?: OwnerIdMode;

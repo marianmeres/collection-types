@@ -100,6 +100,11 @@ export interface SelectConfig {
 	/** `intent` (status fields) carries the per-value badge color. */
 	options: Array<{ value: string; label: string; intent?: string }>;
 	multiple?: boolean;
+	/** `multiselect` only: when true the picker accepts free-text values not in
+	 *  `options` (the listed options become suggestions, not a closed set). Use
+	 *  for fields like account `roles` where the value set is intentionally open
+	 *  server-side. Default false (a true closed enum). */
+	allowUnknown?: boolean;
 }
 
 /** Configuration for keyvalues fields */

@@ -48,6 +48,14 @@ export type ObjectSchema<T> = {
 	 * last touched" in the list.
 	 */
 	_data_table_dates?: ("_created_at" | "_updated_at")[];
+	/**
+	 * Admin list-view hint: blacklist of always-on system columns to suppress in
+	 * the DataTable (e.g. `["model_id"]` to hide the opaque UUID when the built-in
+	 * human-friendly `code` column already identifies the row). Applied after the
+	 * column list is assembled. Cosmetic only — row navigation reads `model_id`
+	 * from the row, not the visible column.
+	 */
+	_data_table_hidden_columns?: string[];
 };
 
 /** Extended schema (loose typing for __extends patterns) */
