@@ -86,7 +86,7 @@ export interface CollectionDTOIn {
 	__is_hierarchy_enabled?: boolean;
 	/**
 	 * Lightweight-mode kill switch — when `false`, the fulltext indexing path
-	 * (`__searchable`, `__searchable2`, generated tsvectors) is skipped. The
+	 * (`__searchable`, generated tsvectors) is skipped. The
 	 * `data` GIN index remains active, so `data @>` / `data ?` queries still
 	 * work. Defaults to `true`. **Immutable after creation.**
 	 */

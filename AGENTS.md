@@ -185,8 +185,7 @@ interface ModelDTOOut extends ModelDTOIn {
 // Database (+ internal fields)
 interface ModelDbRow extends ModelDTOOut {
 	__is_rest_disabled: boolean;
-	__searchable: Record<string, unknown>;
-	__searchable2: string;
+	__searchable: string;
 	__hierarchy_path: LtreePath | null;
 }
 

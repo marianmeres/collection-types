@@ -34,7 +34,7 @@ Relation:     RelationDTOIn → RelationDTOOut → RelationDbRow (= Relation)
 | ----------------- | ------------------------------------------------------------------- |
 | `ModelDTOIn`      | Input DTO (type, parent_id, path, folder, tags, data, meta, flags)  |
 | `ModelDTOOut`     | + model_id, collection_id, depth, _label, _created_at, _updated_at  |
-| `ModelDbRow`      | + __is_rest_disabled, __searchable, __searchable2, __hierarchy_path |
+| `ModelDbRow`      | + __is_rest_disabled, __searchable, __hierarchy_path                |
 | `ModelUpsertData` | + **relations** for relation upserts                                |
 | `Model<TData>`    | Generic type with typed data field                                  |
 
