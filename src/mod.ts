@@ -68,9 +68,6 @@ export * from "./product.ts";
 // Project/config domain types
 export * from "./project.ts";
 
-// Country domain types (geographic reference data)
-export * from "./country.ts";
-
 // Template domain types
 export * from "./template.ts";
 

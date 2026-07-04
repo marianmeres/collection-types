@@ -80,10 +80,6 @@ export interface AddressData {
 	/** Whether this is the default address for its type */
 	is_default: boolean;
 
-	// UI-only fields (relation placeholders, never stored in data)
-	/** Country relation (UI-only, stored in relations table) */
-	country_rel?: never;
-
 	/** Index signature for compatibility with UserData */
 	[key: string]: unknown;
 }
