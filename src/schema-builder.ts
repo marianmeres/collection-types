@@ -56,6 +56,12 @@ export type ObjectSchema<T> = {
 	 * from the row, not the visible column.
 	 */
 	_data_table_hidden_columns?: string[];
+	/**
+	 * Admin detail hint: opt in to the "Clone" (save-as-duplicate) button in the
+	 * detail footer. Off by default — most collections don't want one-click
+	 * duplication of a record.
+	 */
+	_clone_enabled?: boolean;
 };
 
 /** Extended schema (loose typing for __extends patterns) */
