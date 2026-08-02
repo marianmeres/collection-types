@@ -22,6 +22,17 @@ export interface PaymentData {
 	status: PaymentStatus;
 	/** Payment amount */
 	amount: number;
+	/**
+	 * Cumulative amount refunded so far, in the same units as {@link amount}.
+	 * Absent or `0` = nothing refunded.
+	 *
+	 * A value **below** `amount` is a PARTIAL refund, and `status` deliberately
+	 * stays `"completed"` in that case — a partially refunded payment is still a
+	 * completed one. So `status === "refunded"` answers "was ALL of it
+	 * returned?", and this field answers "was ANY of it returned?". Reading the
+	 * former as the latter is wrong the moment a partial refund happens.
+	 */
+	refunded_amount?: number;
 	/** Currency code */
 	currency: string;
 	/** Provider-specific reference ID */
