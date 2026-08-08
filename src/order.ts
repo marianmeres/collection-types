@@ -93,6 +93,13 @@ export interface OrderData {
 	notes?: string;
 
 	// Checkout-specific fields
+	/**
+	 * Payment provider id stamped at checkout completion (e.g. `paypal`,
+	 * `stripe`) — mirrors the invoice's `payment_method`. Empty/absent until
+	 * the order is paid via checkout; an admin status flip does not set it, so
+	 * renderers must treat "" as "unknown", never as "not paid".
+	 */
+	payment_method?: string;
 	/** Selected delivery option ID */
 	delivery_option_id?: string;
 	/** Delivery option snapshot at checkout time */
