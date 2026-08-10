@@ -13,6 +13,14 @@ export interface AccountData {
 	email: string;
 	roles?: string[];
 	isVerified?: boolean;
+	/**
+	 * Preferred UI/email language (ISO-639-1). Absent on accounts created before
+	 * the field existed, and on any account whose stored value the deployment no
+	 * longer offers — both cases resolve to the app default at READ time. Never
+	 * rewrite it in place to "repair" it: a narrowing that is later widened back
+	 * would have silently destroyed the user's real preference.
+	 */
+	locale?: string;
 	/** Index signature for Model<T> compatibility */
 	[key: string]: unknown;
 }
