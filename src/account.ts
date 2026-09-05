@@ -56,7 +56,12 @@ export interface TokenData {
 // -----------------------------------------------------------------------------
 
 /** Supported OAuth provider names */
-export type OAuthProvider = "google" | "facebook" | "apple" | "twitter";
+export type OAuthProvider =
+	| "google"
+	| "microsoft"
+	| "facebook"
+	| "apple"
+	| "twitter";
 
 /** OAuth connection model data (links accounts to OAuth providers) */
 export interface OAuthConnectionData {
