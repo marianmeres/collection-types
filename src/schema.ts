@@ -97,8 +97,11 @@ export interface AssetTypeConfig {
 
 /** Configuration for select/multiselect/status fields */
 export interface SelectConfig {
-	/** `intent` (status fields) carries the per-value badge color. */
-	options: Array<{ value: string; label: string; intent?: string }>;
+	/**
+	 * `intent` (status fields) carries the per-value badge color. `label` may be
+	 * localized (`{ en, sk }`), like `_html.label` — the UI resolves it.
+	 */
+	options: Array<{ value: string; label: MaybeLocalized<string>; intent?: string }>;
 	multiple?: boolean;
 	/** `multiselect` only: when true the picker accepts free-text values not in
 	 *  `options` (the listed options become suggestions, not a closed set). Use
@@ -197,8 +200,8 @@ export interface SchemaHtmlConfig {
 	 * editor already starts in source regardless (`autoSourceOnMobile`).
 	 */
 	mode?: MarkdownEditorMode;
-	/** Input placeholder text */
-	placeholder?: string;
+	/** Input placeholder text (can be localized) */
+	placeholder?: MaybeLocalized<string>;
 	/** Help text */
 	help?: string;
 	/** Read-only field */
