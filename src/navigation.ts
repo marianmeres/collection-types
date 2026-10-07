@@ -11,6 +11,7 @@
  * Types are displayed as tabs within the entity screen.
  */
 
+import type { AreaPagesNavSection } from "./area-pages.ts";
 import type { MaybeLocalized } from "./utils.ts";
 
 /**
@@ -42,6 +43,12 @@ export interface ModuleRegistryEntry {
  * Allows customization of auto-generated navigation.
  */
 export interface NavConfig {
+	/**
+	 * Section header of the CMS area in the sidebar — the same key and shape
+	 * the area-pages configs use (`AreaPagesConfig.navSection`). Each field
+	 * left out keeps the nav builder's default.
+	 */
+	navSection?: AreaPagesNavSection;
 	/**
 	 * Override settings for specific items.
 	 * Key formats (checked in order of specificity):

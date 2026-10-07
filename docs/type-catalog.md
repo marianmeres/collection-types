@@ -122,7 +122,7 @@ Relation:     RelationDTOIn → RelationDTOOut → RelationDbRow (= Relation)
 | --------------------- | ---------------------------------------------------------------------------- |
 | `CollectionTypeEntry` | Type entry within collection (name, schemaTitle)                             |
 | `ModuleRegistryEntry` | Domain module registry (domain, mount, domainLabel, collections)             |
-| `NavConfig`           | Navigation customization (overrides, hidden, custom items)                   |
+| `NavConfig`           | Navigation customization (navSection, overrides, hidden, custom items)       |
 | `NavItemDef`          | Output nav item (label, href, domain, entity, type, id, folder, icon, group) |
 
 ## form-routes.ts — Form Route Overrides
